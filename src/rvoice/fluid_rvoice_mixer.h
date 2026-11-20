@@ -83,6 +83,12 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_mixer_reset_chorus);
 
 
 void fluid_rvoice_mixer_set_mix_fx(fluid_rvoice_mixer_t *mixer, int on);
+
+/* Set the absolute render tick (sample position since synth start) of
+ * the first sample about to be rendered. Used to resolve sample-accurate
+ * pending voice route changes. */
+void fluid_rvoice_mixer_set_render_tick(fluid_rvoice_mixer_t *mixer,
+                                        unsigned int tick);
 #ifdef LADSPA
 void fluid_rvoice_mixer_set_ladspa(fluid_rvoice_mixer_t *mixer,
                                    fluid_ladspa_fx_t *ladspa_fx, int audio_groups);

@@ -544,6 +544,81 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping)
     buffers->bufs[bufnum].mapping = mapping;
 }
 
+/* Repoint all four mixdown buffers (L, R, reverb send, chorus send)
+ * of a voice at the given space. The mixer's global mixdown array is
+ * laid out by fluid_mixer_buffers_prepare() as:
+ *   [0, 2*group_count)            dry stereo pairs (L=even, R=odd)
+ *   [2*group_count, ...)          effect sends. Each space owns two
+ *                                 consecutive slots: slot 2*space (even,
+ *                                 the reverb/left entry) and slot
+ *                                 2*space+1 (odd, the chorus/right entry).
+ * The slot parity selects left vs right storage inside an fx entry, so
+ * reverb must use the even slot and chorus the odd one.
+ */
+static FLUID_INLINE void
+fluid_rvoice_apply_route_impl(fluid_rvoice_t *voice, int space, int group_count)
+{
+    fluid_rvoice_param_t p[MAX_EVENT_PARAMS];
+    int dry_base = 2 * space;
+    int fx_base = 2 * group_count + 2 * space;
+
+    if(group_count < 1)
+    {
+        return;
+    }
+
+    p[0].i = 0;
+    p[1].i = dry_base;       /* dry left  */
+    fluid_rvoice_buffers_set_mapping(&voice->buffers, p);
+
+    p[0].i = 1;
+    p[1].i = dry_base + 1;   /* dry right */
+    fluid_rvoice_buffers_set_mapping(&voice->buffers, p);
+
+    /* reverb send -> even fx slot of this space (reverb/left entry) */
+    p[0].i = 2;
+    p[1].i = fx_base + 0;
+    fluid_rvoice_buffers_set_mapping(&voice->buffers, p);
+
+    /* chorus send -> odd fx slot of this space (chorus/right entry) */
+    p[0].i = 3;
+    p[1].i = fx_base + 1;
+    fluid_rvoice_buffers_set_mapping(&voice->buffers, p);
+}
+
+void fluid_rvoice_apply_route_pub(fluid_rvoice_t *voice, int space, int group_count)
+{
+    fluid_rvoice_apply_route_impl(voice, space, group_count);
+}
+
+DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_set_route)
+{
+    fluid_rvoice_t *voice = obj;
+    int space = param[0].i;
+    int group_count = param[1].i;
+    unsigned int at_tick = (unsigned int)param[2].i;
+
+    if(space < 0 || group_count < 1)
+    {
+        return;
+    }
+
+    voice->route_group_count = group_count;
+
+    /* param[2] < 0 means "change immediately"; otherwise it is the
+     * absolute render tick of the sample-accurate cut. */
+    if(param[2].i < 0)
+    {
+        voice->pending_space = -1;
+        fluid_rvoice_apply_route_impl(voice, space, group_count);
+    }
+    else
+    {
+        voice->pending_space = space;
+        voice->route_at = at_tick;
+    }
+}
+
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_reset)
 {
@@ -581,6 +656,11 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_reset)
     voice->finished_cb = NULL;
     voice->finished_cb_voice = NULL;
     voice->finished_cb_data = NULL;
+
+    /* Reset multi-space routing state so a reused rvoice cannot inherit
+     * a pending route switch. */
+    voice->pending_space = -1;
+    voice->route_group_count = 0;
 
     /* Force setting of the phase at the first DSP loop run
      * This cannot be done earlier, because it depends on modulators.

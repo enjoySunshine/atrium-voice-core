@@ -100,6 +100,11 @@ struct _fluid_voice_t
     /* chorus */
     fluid_real_t chorus_send;
 
+    /* space (room) the voice renders to: selects the dry stereo group
+     * and the matching reverb/chorus unit. Two voices on the same MIDI
+     * channel may live in different spaces. */
+    int space;
+
     /* rvoice control */
     fluid_rvoice_t *rvoice;
     fluid_rvoice_t *overflow_rvoice; /* Used temporarily and only in overflow situations */
@@ -126,6 +131,10 @@ struct _fluid_voice_t
 
 fluid_voice_t *new_fluid_voice(fluid_rvoice_eventhandler_t *handler, fluid_real_t output_rate, fluid_iir_sincos_t *sincos_table);
 void delete_fluid_voice(fluid_voice_t *voice);
+
+/* Move a (possibly playing) voice into another space, optionally at an
+ * absolute sample position. See fluid_synth_voice_set_space(). */
+int fluid_voice_set_space(fluid_voice_t *voice, int space, unsigned int at_tick);
 
 void fluid_voice_start(fluid_voice_t *voice);
 void  fluid_voice_calculate_gen_pitch(fluid_voice_t *voice);

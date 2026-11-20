@@ -98,6 +98,7 @@ struct _fluid_rvoice_mixer_t
     int polyphony; /**< Read-only: Length of voices array */
     int active_voices; /**< Read-only: Number of non-null voices */
     int current_blockcount;      /**< Read-only: how many blocks to process this time */
+    unsigned int render_tick;    /**< absolute tick of the first sample rendered next */
     int fx_units;
     int with_reverb;        /**< Should the synth use the built-in reverb unit? */
     int with_chorus;        /**< Should the synth use the built-in chorus unit? */
@@ -427,6 +428,45 @@ get_dest_buf(fluid_rvoice_buffers_t *buffers, int index,
 }
 
 /**
+ * Mix one mixdown buffer over a contiguous sub-range of dsp_buf.
+ * Amplitude handling is identical to the original per-block logic, just
+ * expressed against absolute sample indices so that a pending route
+ * change can split a block in two without restarting the amp ramp:
+ * the amp ramps from current_amp to target_amp over the first
+ * FLUID_BUFSIZE samples of the whole mix run and stays at target_amp
+ * afterwards.
+ */
+static FLUID_INLINE void
+fluid_rvoice_mix_buffer_range(fluid_rvoice_buffers_t *buffers, int i,
+                              const fluid_real_t *FLUID_RESTRICT dsp_buf,
+                              int start, int end,
+                              fluid_real_t **dest_bufs, int dest_bufcount)
+{
+    fluid_real_t *FLUID_RESTRICT buf = get_dest_buf(buffers, i, dest_bufs, dest_bufcount);
+    fluid_real_t target_amp = buffers->bufs[i].target_amp;
+    fluid_real_t current_amp = buffers->bufs[i].current_amp;
+    fluid_real_t amp_incr = (target_amp - current_amp) / FLUID_BUFSIZE;
+    int dsp_i;
+
+    if(buf == NULL || (current_amp == 0.0f && target_amp == 0.0f))
+    {
+        return;
+    }
+
+    for(dsp_i = start; dsp_i < end; dsp_i++)
+    {
+        if(dsp_i < FLUID_BUFSIZE)
+        {
+            buf[dsp_i] += (current_amp + amp_incr * dsp_i) * dsp_buf[dsp_i];
+        }
+        else
+        {
+            buf[dsp_i] += target_amp * dsp_buf[dsp_i];
+        }
+    }
+}
+
+/**
  * Mix samples down from internal dsp_buf to output buffers
  *
  * @param buffers Destination buffer(s)
@@ -437,14 +477,16 @@ get_dest_buf(fluid_rvoice_buffers_t *buffers, int index,
  * @param dest_bufcount Length of dest_bufs (i.e count of buffers)
  */
 static void
-fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
+fluid_rvoice_buffers_mix(fluid_rvoice_mixer_t *mixer,
+                         fluid_rvoice_t *rvoice,
+                         fluid_rvoice_buffers_t *buffers,
                          const fluid_real_t *FLUID_RESTRICT dsp_buf,
                          int start_block, int sample_count,
                          fluid_real_t **dest_bufs, int dest_bufcount)
 {
     /* buffers count to mixdown to */
     int bufcount = buffers->count;
-    int i, dsp_i;
+    int i, range_start, range_end;
 
     /* if there is nothing to mix, return immediately */
     if(sample_count <= 0 || dest_bufcount <= 0)
@@ -455,69 +497,52 @@ fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
     FLUID_ASSERT((uintptr_t)dsp_buf % FLUID_DEFAULT_ALIGNMENT == 0);
     FLUID_ASSERT((uintptr_t)(&dsp_buf[start_block * FLUID_BUFSIZE]) % FLUID_DEFAULT_ALIGNMENT == 0);
 
-    /* mixdown for each buffer */
-    for(i = 0; i < bufcount; i++)
+    range_start = start_block * FLUID_BUFSIZE;
+    range_end = range_start + sample_count;
+
+    /* Sample-accurate space change pending inside this mix range?
+     * route_at is an absolute render tick; the tick of the first sample
+     * mixed here is mixer->render_tick + range_start. */
     {
-        fluid_real_t *FLUID_RESTRICT buf = get_dest_buf(buffers, i, dest_bufs, dest_bufcount);
-        fluid_real_t target_amp = buffers->bufs[i].target_amp;
-        fluid_real_t current_amp = buffers->bufs[i].current_amp;
-        fluid_real_t amp_incr;
+        unsigned int first_tick = mixer->render_tick + (unsigned int)range_start;
+        unsigned int end_tick = first_tick + (unsigned int)sample_count;
 
-        if(buf == NULL || (current_amp == 0.0f && target_amp == 0.0f))
+        if(rvoice->pending_space >= 0 && rvoice->route_group_count > 0
+                && rvoice->route_at >= first_tick && rvoice->route_at < end_tick)
         {
-            continue;
-        }
+            int split = range_start + (int)(rvoice->route_at - first_tick);
 
-        amp_incr = (target_amp - current_amp) / FLUID_BUFSIZE;
-
-        FLUID_ASSERT((uintptr_t)buf % FLUID_DEFAULT_ALIGNMENT == 0);
-
-        /* Mixdown sample_count samples in the current buffer buf
-         *
-         * For the first FLUID_BUFSIZE samples, we linearly interpolate the buffers amplitude to
-         * avoid clicks/pops when rapidly changing the channels panning (issue 768).
-         * 
-         * We could have squashed this into one single loop by using an if clause within the loop body.
-         * But it seems like having two separate loops is easier for compilers to understand, and therefore
-         * auto-vectorizing the loops.
-         */
-        if(sample_count < FLUID_BUFSIZE)
-        {
-            // scalar loop variant, the voice will have finished afterwards
-            for(dsp_i = 0; dsp_i < sample_count; dsp_i++)
+            for(i = 0; i < bufcount; i++)
             {
-                buf[start_block * FLUID_BUFSIZE + dsp_i] += current_amp * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
-                current_amp += amp_incr;
+                fluid_rvoice_mix_buffer_range(buffers, i, dsp_buf, range_start, split,
+                                              dest_bufs, dest_bufcount);
+            }
+
+            /* repoint all four buffers to the new space for the remainder */
+            fluid_rvoice_apply_route_pub(rvoice, rvoice->pending_space,
+                                         rvoice->route_group_count);
+            rvoice->pending_space = -1;
+
+            for(i = 0; i < bufcount; i++)
+            {
+                fluid_rvoice_mix_buffer_range(buffers, i, dsp_buf, split, range_end,
+                                              dest_bufs, dest_bufcount);
             }
         }
         else
         {
-            // here goes the vectorizable loop
-            #pragma omp simd aligned(dsp_buf,buf:FLUID_DEFAULT_ALIGNMENT)
-            for(dsp_i = 0; dsp_i < FLUID_BUFSIZE; dsp_i++)
+            for(i = 0; i < bufcount; i++)
             {
-                // We cannot simply increment current_amp by amp_incr during every iteration, as this would create a dependency and prevent vectorization.
-                buf[start_block * FLUID_BUFSIZE + dsp_i] += (current_amp + amp_incr * dsp_i) * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
-            }
-            
-            // we have reached the target_amp
-            if(target_amp > 0)
-            {
-                /* Note, that this loop could be unrolled by FLUID_BUFSIZE elements */
-                #pragma omp simd aligned(dsp_buf,buf:FLUID_DEFAULT_ALIGNMENT)
-                for(dsp_i = FLUID_BUFSIZE; dsp_i < sample_count; dsp_i++)
-                {
-                    // Index by blocks (not by samples) to let the compiler know that we always start accessing
-                    // buf and dsp_buf at the FLUID_BUFSIZE*sizeof(fluid_real_t) byte boundary and never somewhere
-                    // in between.
-                    // A good compiler should understand: Aha, so I don't need to add a peel loop when vectorizing
-                    // this loop. Great.
-                    buf[start_block * FLUID_BUFSIZE + dsp_i] += target_amp * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
-                }
+                fluid_rvoice_mix_buffer_range(buffers, i, dsp_buf, range_start, range_end,
+                                              dest_bufs, dest_bufcount);
             }
         }
-        
-        buffers->bufs[i].current_amp = target_amp;
+    }
+
+    /* Every mix call ends with current_amp == target_amp */
+    for(i = 0; i < bufcount; i++)
+    {
+        buffers->bufs[i].current_amp = buffers->bufs[i].target_amp;
     }
 }
 
@@ -541,7 +566,8 @@ fluid_mixer_buffers_render_one(fluid_mixer_buffers_t *buffers,
         if(s == -1)
         {
             /* the voice is silent, mix back all the previously rendered sound */
-            fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed,
+            fluid_rvoice_buffers_mix(buffers->mixer, rvoice, &rvoice->buffers, src_buf,
+                                     last_block_mixed,
                                      total_samples - (last_block_mixed * FLUID_BUFSIZE),
                                      dest_bufs, dest_bufcount);
 
@@ -562,7 +588,8 @@ fluid_mixer_buffers_render_one(fluid_mixer_buffers_t *buffers,
     }
 
     /* Now mix the remaining blocks from last_block_mixed to total_sample */
-    fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed,
+    fluid_rvoice_buffers_mix(buffers->mixer, rvoice, &rvoice->buffers, src_buf,
+                             last_block_mixed,
                              total_samples - (last_block_mixed * FLUID_BUFSIZE),
                              dest_bufs, dest_bufcount);
 
@@ -1246,6 +1273,11 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_mixer_chorus_enable)
 void fluid_rvoice_mixer_set_mix_fx(fluid_rvoice_mixer_t *mixer, int on)
 {
     mixer->mix_fx_to_out = on;
+}
+
+void fluid_rvoice_mixer_set_render_tick(fluid_rvoice_mixer_t *mixer, unsigned int tick)
+{
+    mixer->render_tick = tick;
 }
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_mixer_set_chorus_params)

@@ -1,0 +1,1923 @@
+Start testing: Nov 20 02:58 UTC
+----------------------------------------------------------
+1/46 Testing: test_synth_reset_cc
+1/46 Test: test_synth_reset_cc
+Command: "/workspace/build3/test/test_synth_reset_cc"
+Directory: /workspace/build3/test
+"test_synth_reset_cc" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x1
+<end of output>
+Test time =   7.54 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_reset_cc" end time: Nov 20 02:58 UTC
+"test_synth_reset_cc" time elapsed: 00:00:07
+----------------------------------------------------------
+
+2/46 Testing: test_bank_select_gm2
+2/46 Test: test_bank_select_gm2
+Command: "/workspace/build3/test/test_bank_select_gm2"
+Directory: /workspace/build3/test
+"test_bank_select_gm2" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.63 sec
+----------------------------------------------------------
+Test Passed.
+"test_bank_select_gm2" end time: Nov 20 02:58 UTC
+"test_bank_select_gm2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/46 Testing: test_sample_cache
+3/46 Test: test_sample_cache
+Command: "/workspace/build3/test/test_sample_cache"
+Directory: /workspace/build3/test
+"test_sample_cache" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.99 sec
+----------------------------------------------------------
+Test Passed.
+"test_sample_cache" end time: Nov 20 02:58 UTC
+"test_sample_cache" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/46 Testing: test_sfont_loading
+4/46 Test: test_sfont_loading
+Command: "/workspace/build3/test/test_sfont_loading"
+Directory: /workspace/build3/test
+"test_sfont_loading" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+<end of output>
+Test time =   0.84 sec
+----------------------------------------------------------
+Test Passed.
+"test_sfont_loading" end time: Nov 20 02:58 UTC
+"test_sfont_loading" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/46 Testing: test_preset_sample_loading
+5/46 Test: test_preset_sample_loading
+Command: "/workspace/build3/test/test_preset_sample_loading"
+Directory: /workspace/build3/test
+"test_preset_sample_loading" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.67 sec
+----------------------------------------------------------
+Test Passed.
+"test_preset_sample_loading" end time: Nov 20 02:58 UTC
+"test_preset_sample_loading" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/46 Testing: test_preset_pinning
+6/46 Test: test_preset_pinning
+Command: "/workspace/build3/test/test_preset_pinning"
+Directory: /workspace/build3/test
+"test_preset_pinning" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: Loaded samples on sfont 1: 123
+
+fluidsynth: Loaded samples on sfont 1: 123
+
+fluidsynth: Loaded samples on sfont 1: 123
+
+fluidsynth: error: There is no preset with bank number 42 and preset number 42 in SoundFont 1
+fluidsynth: Loaded samples on sfont 1: 123
+
+fluidsynth: error: There is no preset with bank number 42 and preset number 42 in SoundFont 1
+fluidsynth: Loaded samples on sfont 1: 123
+
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 5
+
+fluidsynth: Loaded samples on sfont 1: 5
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: Loaded samples on sfont 1: 0
+
+fluidsynth: Loaded samples on sfont 1: 4
+
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: error: fluid_sfloader_load(): Failed to open 'tf2/VintageDreamsWaves-v2.sf2': File does not exist.
+fluidsynth: error: Unable to open file 'tf2/VintageDreamsWaves-v2.sf2'
+fluidsynth: error: Unable to open Soundfont file
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: Loaded samples on sfont 3: 4
+
+<end of output>
+Test time =   0.65 sec
+----------------------------------------------------------
+Test Passed.
+"test_preset_pinning" end time: Nov 20 02:58 UTC
+"test_preset_pinning" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/46 Testing: test_bug_635
+7/46 Test: test_bug_635
+Command: "/workspace/build3/test/test_bug_635"
+Directory: /workspace/build3/test
+"test_bug_635" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+fluidsynth: error: Calling fluid_synth_start() while synth.dynamic-sample-loading is enabled is not supported.
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"test_bug_635" end time: Nov 20 02:58 UTC
+"test_bug_635" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/46 Testing: test_settings_unregister_callback
+8/46 Test: test_settings_unregister_callback
+Command: "/workspace/build3/test/test_settings_unregister_callback"
+Directory: /workspace/build3/test
+"test_settings_unregister_callback" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: error: Invalid portamento time mode 'ABCDEFG'. Valid modes: auto, xg-gs, linear
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_settings_unregister_callback" end time: Nov 20 02:58 UTC
+"test_settings_unregister_callback" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/46 Testing: test_pointer_alignment
+9/46 Test: test_pointer_alignment
+Command: "/workspace/build3/test/test_pointer_alignment"
+Directory: /workspace/build3/test
+"test_pointer_alignment" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.29 sec
+----------------------------------------------------------
+Test Passed.
+"test_pointer_alignment" end time: Nov 20 02:58 UTC
+"test_pointer_alignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/46 Testing: test_seqbind_unregister
+10/46 Test: test_seqbind_unregister
+Command: "/workspace/build3/test/test_seqbind_unregister"
+Directory: /workspace/build3/test
+"test_seqbind_unregister" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_seqbind_unregister" end time: Nov 20 02:58 UTC
+"test_seqbind_unregister" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/46 Testing: test_synth_chorus_reverb
+11/46 Test: test_synth_chorus_reverb
+Command: "/workspace/build3/test/test_synth_chorus_reverb"
+Directory: /workspace/build3/test
+"test_synth_chorus_reverb" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_chorus_reverb" end time: Nov 20 02:58 UTC
+"test_synth_chorus_reverb" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/46 Testing: test_snprintf
+12/46 Test: test_snprintf
+Command: "/workspace/build3/test/test_snprintf"
+Directory: /workspace/build3/test
+"test_snprintf" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_snprintf" end time: Nov 20 02:58 UTC
+"test_snprintf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/46 Testing: test_synth_process
+13/46 Test: test_synth_process
+Command: "/workspace/build3/test/test_synth_process"
+Directory: /workspace/build3/test
+"test_synth_process" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_process" end time: Nov 20 02:58 UTC
+"test_synth_process" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/46 Testing: test_ct2hz
+14/46 Test: test_ct2hz
+Command: "/workspace/build3/test/test_ct2hz"
+Directory: /workspace/build3/test
+"test_ct2hz" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   4.56 sec
+----------------------------------------------------------
+Test Passed.
+"test_ct2hz" end time: Nov 20 02:58 UTC
+"test_ct2hz" time elapsed: 00:00:04
+----------------------------------------------------------
+
+15/46 Testing: test_sample_validate
+15/46 Test: test_sample_validate
+Command: "/workspace/build3/test/test_sample_validate"
+Directory: /workspace/build3/test
+"test_sample_validate" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: Sample '' has no flags set, assuming mono
+fluidsynth: Sample '' has no flags set, assuming mono
+fluidsynth: Sample '' has no flags set, assuming mono
+fluidsynth: Sample '' has no flags set, assuming mono
+fluidsynth: Linked sample '' should not be mono, left or right at the same time; using it anyway
+fluidsynth: Linked sample '' should not be mono, left or right at the same time; using it anyway
+fluidsynth: Linked sample '' should not be mono, left or right at the same time; using it anyway
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: warning: Sample '': ROM sample ignored
+fluidsynth: Sample '' has no flags set, assuming mono
+fluidsynth: Sample '' should be either mono or left or right; using it anyway
+fluidsynth: Sample '' should be either mono or left or right; using it anyway
+fluidsynth: Sample '' should be either mono or left or right; using it anyway
+fluidsynth: Linked sample '' should not be mono, left or right at the same time; using it anyway
+fluidsynth: warning: Sample '' has unknown flags, possibly using an unsupported compression; sample ignored
+fluidsynth: warning: Sample '' has unknown flags, possibly using an unsupported compression; sample ignored
+fluidsynth: warning: Sample '' has unknown flags, possibly using an unsupported compression; sample ignored
+fluidsynth: warning: Sample '' has unknown flags, possibly using an unsupported compression; sample ignored
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_sample_validate" end time: Nov 20 02:58 UTC
+"test_sample_validate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/46 Testing: test_sfont_unloading
+16/46 Test: test_sfont_unloading
+Command: "/workspace/build3/test/test_sfont_unloading"
+Directory: /workspace/build3/test
+"test_sfont_unloading" start time: Nov 20 02:58 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: Begin test_default_polyphony() with rendering
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_default_polyphony(): Start waiting for soundfont 1 to unload
+fluidsynth: test_default_polyphony(): End waiting for soundfont 1 to unload
+fluidsynth: error: Not a SoundFont file
+fluidsynth: warning: Sample 'SineWave': invalid start/end file positions
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_default_polyphony(): Start waiting for soundfont 1 to unload
+fluidsynth: test_default_polyphony(): End waiting for soundfont 1 to unload
+fluidsynth: End test_default_polyphony()
+
+fluidsynth: Begin test_default_polyphony() without rendering
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_default_polyphony(): Start waiting for soundfont 1 to unload
+fluidsynth: test_default_polyphony(): End waiting for soundfont 1 to unload
+fluidsynth: error: Not a SoundFont file
+fluidsynth: warning: Sample 'SineWave': invalid start/end file positions
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_default_polyphony(): Start waiting for soundfont 1 to unload
+fluidsynth: test_default_polyphony(): End waiting for soundfont 1 to unload
+fluidsynth: End test_default_polyphony()
+
+fluidsynth: Begin test_after_polyphony_exceeded()
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: test_after_polyphony_exceeded(): note on C4, voice count=2
+fluidsynth: test_after_polyphony_exceeded(): note on C#4, voice count=2
+fluidsynth: test_after_polyphony_exceeded(): unload sounfont
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_after_polyphony_exceeded(): note off C#4, voice count=0
+fluidsynth: test_after_polyphony_exceeded(): Start waiting for soundfont 1 to unload
+fluidsynth: test_after_polyphony_exceeded(): End waiting for soundfont 1 to unload
+fluidsynth: error: Not a SoundFont file
+fluidsynth: warning: Sample 'SineWave': invalid start/end file positions
+fluidsynth: test_after_polyphony_exceeded(): note on C4, voice count=2
+fluidsynth: test_after_polyphony_exceeded(): note on C#4, voice count=2
+fluidsynth: test_after_polyphony_exceeded(): unload sounfont
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_after_polyphony_exceeded(): note off C#4, voice count=0
+fluidsynth: test_after_polyphony_exceeded(): Start waiting for soundfont 1 to unload
+fluidsynth: test_after_polyphony_exceeded(): End waiting for soundfont 1 to unload
+fluidsynth: End test_after_polyphony_exceeded()
+
+fluidsynth: Begin test_without_rendering()
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_without_rendering(): Start waiting for soundfont 1 to unload
+fluidsynth: test_without_rendering(): End waiting for soundfont 1 to unload
+fluidsynth: error: Not a SoundFont file
+fluidsynth: warning: Sample 'SineWave': invalid start/end file positions
+fluidsynth: warning: No preset found on channel 0 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 1 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 2 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 3 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 4 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 5 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 6 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 7 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 8 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 9 [bank=128 prog=0]
+fluidsynth: warning: No preset found on channel 10 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 11 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 12 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 13 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 14 [bank=0 prog=0]
+fluidsynth: warning: No preset found on channel 15 [bank=0 prog=0]
+fluidsynth: test_without_rendering(): Start waiting for soundfont 1 to unload
+fluidsynth: test_without_rendering(): End waiting for soundfont 1 to unload
+fluidsynth: End test_without_rendering()
+<end of output>
+Test time =  10.74 sec
+----------------------------------------------------------
+Test Passed.
+"test_sfont_unloading" end time: Nov 20 02:59 UTC
+"test_sfont_unloading" time elapsed: 00:00:10
+----------------------------------------------------------
+
+17/46 Testing: test_sfont_zone
+17/46 Test: test_sfont_zone
+Command: "/workspace/build3/test/test_sfont_zone"
+Directory: /workspace/build3/test
+"test_sfont_zone" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Preset '': Some invalid generators were discarded, potentially resulting in a different timbre. Run fluidsynth in verbose mode for detailed information.
+fluidsynth: error: Preset generator chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: error: IGEN chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: warning: Preset '': Some invalid generators were discarded, potentially resulting in a different timbre. Run fluidsynth in verbose mode for detailed information.
+fluidsynth: warning: Instrument '': Some invalid generators were discarded, audible glitches are to be expected! Run fluidsynth in verbose mode for detailed information.
+fluidsynth: warning: Preset '': Some invalid generators were discarded, potentially resulting in a different timbre. Run fluidsynth in verbose mode for detailed information.
+fluidsynth: warning: Preset '': Some invalid generators were discarded, potentially resulting in a different timbre. Run fluidsynth in verbose mode for detailed information.
+fluidsynth: error: Preset generator chunk size mismatch
+fluidsynth: error: Preset generator chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: error: Preset generator chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: warning: Instrument '': Some invalid generators were discarded, audible glitches are to be expected! Run fluidsynth in verbose mode for detailed information.
+fluidsynth: warning: Instrument '': Some invalid generators were discarded, audible glitches are to be expected! Run fluidsynth in verbose mode for detailed information.
+fluidsynth: error: IGEN chunk size mismatch
+fluidsynth: error: Instrument generator chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: error: Instrument generator chunk size mismatch, rejecting SoundFont as structurally defective.
+fluidsynth: warning: Preset '': Discarding invalid global zone (global zones must appear first in presets per SoundFont spec 7.3)
+fluidsynth: warning: Preset '': Some invalid generators were discarded, potentially resulting in a different timbre. Run fluidsynth in verbose mode for detailed information.
+fluidsynth: warning: Instrument '': Discarding invalid global zone (global zones must appear first in instruments per SoundFont spec 7.7).
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_sfont_zone" end time: Nov 20 02:59 UTC
+"test_sfont_zone" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/46 Testing: test_seq_event_queue_sort
+18/46 Test: test_seq_event_queue_sort
+Command: "/workspace/build3/test/test_seq_event_queue_sort"
+Directory: /workspace/build3/test
+"test_seq_event_queue_sort" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"test_seq_event_queue_sort" end time: Nov 20 02:59 UTC
+"test_seq_event_queue_sort" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/46 Testing: test_seq_scale
+19/46 Test: test_seq_scale
+Command: "/workspace/build3/test/test_seq_scale"
+Directory: /workspace/build3/test
+"test_seq_scale" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: synth callback time: 0 0
+fluidsynth: synth callback time: 0 0
+fluidsynth: synth callback time: 120 120
+fluidsynth: synth callback time: 120 120
+fluidsynth: synth callback time: 240 240
+fluidsynth: synth callback time: 240 240
+fluidsynth: synth callback time: 360 360
+fluidsynth: synth callback time: 360 360
+fluidsynth: synth callback time: 480 480
+fluidsynth: synth callback time: 720 720
+fluidsynth: synth callback time: 840 840
+fluidsynth: synth callback time: 840 840
+fluidsynth: synth callback time: 960 960
+fluidsynth: synth callback time: 960 960
+fluidsynth: synth callback time: 1080 1080
+fluidsynth: synth callback time: 1080 1080
+fluidsynth: synth callback time: 1200 1200
+fluidsynth: synth callback time: 1440 1440
+fluidsynth: synth callback time: 1560 1560
+fluidsynth: synth callback time: 1560 1560
+fluidsynth: synth callback time: 1680 1680
+fluidsynth: synth callback time: 1680 1680
+fluidsynth: synth callback time: 1800 1800
+fluidsynth: synth callback time: 1800 1800
+fluidsynth: synth callback time: 1920 1920
+fluidsynth: synth callback time: 2160 2160
+fluidsynth: synth callback time: 2280 2280
+fluidsynth: synth callback time: 2280 2280
+fluidsynth: synth callback time: 2400 2400
+fluidsynth: synth callback time: 2400 2400
+fluidsynth: synth callback time: 2520 2520
+fluidsynth: synth callback time: 2520 2520
+fluidsynth: synth callback time: 2640 2640
+fluidsynth: synth callback time: 2880 2880
+fluidsynth: synth callback time: 3000 3000
+fluidsynth: synth callback time: 3000 3000
+fluidsynth: synth callback time: 3120 3120
+fluidsynth: synth callback time: 3120 3120
+fluidsynth: synth callback time: 3240 3240
+fluidsynth: synth callback time: 3240 3240
+fluidsynth: synth callback time: 3360 3360
+fluidsynth: synth callback time: 18080 18080
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_seq_scale" end time: Nov 20 02:59 UTC
+"test_seq_scale" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/46 Testing: test_seq_evt_order
+20/46 Test: test_seq_evt_order
+Command: "/workspace/build3/test/test_seq_evt_order"
+Directory: /workspace/build3/test
+"test_seq_evt_order" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_seq_evt_order" end time: Nov 20 02:59 UTC
+"test_seq_evt_order" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/46 Testing: test_midi_parser_realtime
+21/46 Test: test_midi_parser_realtime
+Command: "/workspace/build3/test/test_midi_parser_realtime"
+Directory: /workspace/build3/test
+"test_midi_parser_realtime" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_midi_parser_realtime" end time: Nov 20 02:59 UTC
+"test_midi_parser_realtime" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/46 Testing: test_midi_file_tempo
+22/46 Test: test_midi_file_tempo
+Command: "/workspace/build3/test/test_midi_file_tempo"
+Directory: /workspace/build3/test
+"test_midi_file_tempo" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: error: Invalid zero tempo in MIDI file
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_midi_file_tempo" end time: Nov 20 02:59 UTC
+"test_midi_file_tempo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/46 Testing: test_seq_event_queue_remove
+23/46 Test: test_seq_event_queue_remove
+Command: "/workspace/build3/test/test_seq_event_queue_remove"
+Directory: /workspace/build3/test
+"test_seq_event_queue_remove" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Passed.
+"test_seq_event_queue_remove" end time: Nov 20 02:59 UTC
+"test_seq_event_queue_remove" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/46 Testing: test_jack_obtaining_synth
+24/46 Test: test_jack_obtaining_synth
+Command: "/workspace/build3/test/test_jack_obtaining_synth"
+Directory: /workspace/build3/test
+"test_jack_obtaining_synth" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_jack_obtaining_synth" end time: Nov 20 02:59 UTC
+"test_jack_obtaining_synth" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/46 Testing: test_utf8_open
+25/46 Test: test_utf8_open
+Command: "/workspace/build3/test/test_utf8_open"
+Directory: /workspace/build3/test
+"test_utf8_open" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.85 sec
+----------------------------------------------------------
+Test Passed.
+"test_utf8_open" end time: Nov 20 02:59 UTC
+"test_utf8_open" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/46 Testing: test_portamento_time
+26/46 Test: test_portamento_time
+Command: "/workspace/build3/test/test_portamento_time"
+Directory: /workspace/build3/test
+"test_portamento_time" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+CC5: 0 ^= 0 s
+CC5: 1 ^= 0.012 s
+CC5: 2 ^= 0.025 s
+CC5: 3 ^= 0.039 s
+CC5: 4 ^= 0.053 s
+CC5: 5 ^= 0.067 s
+CC5: 6 ^= 0.082 s
+CC5: 7 ^= 0.098 s
+CC5: 8 ^= 0.114 s
+CC5: 9 ^= 0.126 s
+CC5: 10 ^= 0.138 s
+CC5: 11 ^= 0.151 s
+CC5: 12 ^= 0.164 s
+CC5: 13 ^= 0.176 s
+CC5: 14 ^= 0.188 s
+CC5: 15 ^= 0.201 s
+CC5: 16 ^= 0.215 s
+CC5: 17 ^= 0.228 s
+CC5: 18 ^= 0.242 s
+CC5: 19 ^= 0.257 s
+CC5: 20 ^= 0.272 s
+CC5: 21 ^= 0.288 s
+CC5: 22 ^= 0.304 s
+CC5: 23 ^= 0.321 s
+CC5: 24 ^= 0.339 s
+CC5: 25 ^= 0.357 s
+CC5: 26 ^= 0.376 s
+CC5: 27 ^= 0.396 s
+CC5: 28 ^= 0.417 s
+CC5: 29 ^= 0.439 s
+CC5: 30 ^= 0.461 s
+CC5: 31 ^= 0.485 s
+CC5: 32 ^= 0.51 s
+CC5: 33 ^= 0.535 s
+CC5: 34 ^= 0.562 s
+CC5: 35 ^= 0.59 s
+CC5: 36 ^= 0.619 s
+CC5: 37 ^= 0.649 s
+CC5: 38 ^= 0.68 s
+CC5: 39 ^= 0.713 s
+CC5: 40 ^= 0.747 s
+CC5: 41 ^= 0.782 s
+CC5: 42 ^= 0.819 s
+CC5: 43 ^= 0.857 s
+CC5: 44 ^= 0.897 s
+CC5: 45 ^= 0.939 s
+CC5: 46 ^= 0.982 s
+CC5: 47 ^= 1.027 s
+CC5: 48 ^= 1.073 s
+CC5: 49 ^= 1.122 s
+CC5: 50 ^= 1.173 s
+CC5: 51 ^= 1.225 s
+CC5: 52 ^= 1.28 s
+CC5: 53 ^= 1.336 s
+CC5: 54 ^= 1.395 s
+CC5: 55 ^= 1.457 s
+CC5: 56 ^= 1.521 s
+CC5: 57 ^= 1.587 s
+CC5: 58 ^= 1.656 s
+CC5: 59 ^= 1.728 s
+CC5: 60 ^= 1.803 s
+CC5: 61 ^= 1.881 s
+CC5: 62 ^= 1.962 s
+CC5: 63 ^= 2.046 s
+CC5: 64 ^= 2.134 s
+CC5: 65 ^= 2.225 s
+CC5: 66 ^= 2.32 s
+CC5: 67 ^= 2.419 s
+CC5: 68 ^= 2.523 s
+CC5: 69 ^= 2.63 s
+CC5: 70 ^= 2.742 s
+CC5: 71 ^= 2.859 s
+CC5: 72 ^= 2.981 s
+CC5: 73 ^= 3.108 s
+CC5: 74 ^= 3.241 s
+CC5: 75 ^= 3.38 s
+CC5: 76 ^= 3.524 s
+CC5: 77 ^= 3.676 s
+CC5: 78 ^= 3.834 s
+CC5: 79 ^= 3.999 s
+CC5: 80 ^= 4.172 s
+CC5: 81 ^= 4.354 s
+CC5: 82 ^= 4.543 s
+CC5: 83 ^= 4.743 s
+CC5: 84 ^= 4.951 s
+CC5: 85 ^= 5.171 s
+CC5: 86 ^= 5.401 s
+CC5: 87 ^= 5.643 s
+CC5: 88 ^= 5.897 s
+CC5: 89 ^= 6.165 s
+CC5: 90 ^= 6.448 s
+CC5: 91 ^= 6.746 s
+CC5: 92 ^= 7.061 s
+CC5: 93 ^= 7.394 s
+CC5: 94 ^= 7.747 s
+CC5: 95 ^= 8.12 s
+CC5: 96 ^= 8.517 s
+CC5: 97 ^= 8.938 s
+CC5: 98 ^= 9.387 s
+CC5: 99 ^= 9.865 s
+CC5: 100 ^= 10.376 s
+CC5: 101 ^= 10.924 s
+CC5: 102 ^= 11.511 s
+CC5: 103 ^= 12.142 s
+CC5: 104 ^= 12.822 s
+CC5: 105 ^= 13.557 s
+CC5: 106 ^= 14.353 s
+CC5: 107 ^= 15.219 s
+CC5: 108 ^= 16.164 s
+CC5: 109 ^= 17.201 s
+CC5: 110 ^= 18.342 s
+CC5: 111 ^= 19.603 s
+CC5: 112 ^= 21.008 s
+CC5: 113 ^= 22.579 s
+CC5: 114 ^= 24.353 s
+CC5: 115 ^= 26.372 s
+CC5: 116 ^= 28.693 s
+CC5: 117 ^= 31.391 s
+CC5: 118 ^= 34.579 s
+CC5: 119 ^= 38.408 s
+CC5: 120 ^= 43.118 s
+CC5: 121 ^= 49.085 s
+CC5: 122 ^= 56.954 s
+CC5: 123 ^= 67.965 s
+CC5: 124 ^= 84.873 s
+CC5: 125 ^= 115.703 s
+CC5: 126 ^= 204.935 s
+CC5: 127 ^= 480 s
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"test_portamento_time" end time: Nov 20 02:59 UTC
+"test_portamento_time" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/46 Testing: test_modulator
+27/46 Test: test_modulator
+Command: "/workspace/build3/test/test_modulator"
+Directory: /workspace/build3/test
+"test_modulator" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: error: This version of fluidsynth no longer supports FLUID_MOD_SIN, pls. use fluid_mod_set_custom_mapping() instead. Disabling source.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_modulator" end time: Nov 20 02:59 UTC
+"test_modulator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/46 Testing: test_default_mod
+28/46 Test: test_default_mod
+Command: "/workspace/build3/test/test_default_mod"
+Directory: /workspace/build3/test
+"test_default_mod" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_default_mod" end time: Nov 20 02:59 UTC
+"test_default_mod" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/46 Testing: test_synth_render_s16
+29/46 Test: test_synth_render_s16
+Command: "/workspace/build3/test/test_synth_render_s16"
+Directory: /workspace/build3/test
+"test_synth_render_s16" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+FluidSynth runtime version: 2.6.2
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+hash mismatch: EXPECTED=0x7FD92354 got=0xAE467A06
+s16 stream mismatch vs reference buffer
+first sample mismatch @2 (interleaved index): exp=1 got=0 delta=-1
+mismatches=230 max_abs_delta=2
+
+    diff stats:
+     max_abs_delta = 2
+     rms_err = 0.708487
+     snr_db = 73.80
+
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=1)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=1)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=2)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=2)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=7)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=7)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=31)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=31)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=63)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=63)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=64)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=64)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=65)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=65)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=127)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=127)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=128)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=128)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=129)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=129)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=191)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=191)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+FLOAT continuity OK (split=255)
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+S16 continuity OK (split=255)
+<end of output>
+Test time =  16.09 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_render_s16" end time: Nov 20 02:59 UTC
+"test_synth_render_s16" time elapsed: 00:00:16
+----------------------------------------------------------
+
+30/46 Testing: test_synth_render_s24
+30/46 Test: test_synth_render_s24
+Command: "/workspace/build3/test/test_synth_render_s24"
+Directory: /workspace/build3/test
+"test_synth_render_s24" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.71 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_render_s24" end time: Nov 20 02:59 UTC
+"test_synth_render_s24" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/46 Testing: test_synth_render_s32
+31/46 Test: test_synth_render_s32
+Command: "/workspace/build3/test/test_synth_render_s32"
+Directory: /workspace/build3/test
+"test_synth_render_s32" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.77 sec
+----------------------------------------------------------
+Test Passed.
+"test_synth_render_s32" end time: Nov 20 02:59 UTC
+"test_synth_render_s32" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/46 Testing: test_round_clip
+32/46 Test: test_round_clip
+Command: "/workspace/build3/test/test_round_clip"
+Directory: /workspace/build3/test
+"test_round_clip" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_round_clip" end time: Nov 20 02:59 UTC
+"test_round_clip" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/46 Testing: test_ABI
+33/46 Test: test_ABI
+Command: "/workspace/build3/test/test_ABI"
+Directory: /workspace/build3/test
+"test_ABI" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+sizeof(...) and alignof(...) in bytes on this platform:
+
+char                         sizeof=1  alignof=1 
+signed char                  sizeof=1  alignof=1 
+unsigned char                sizeof=1  alignof=1 
+wchar_t                      sizeof=4  alignof=4 
+bool                         sizeof=1  alignof=1 
+char16_t                     sizeof=2  alignof=2 
+char32_t                     sizeof=4  alignof=4 
+short                        sizeof=2  alignof=2 
+unsigned short               sizeof=2  alignof=2 
+int                          sizeof=4  alignof=4 
+unsigned int                 sizeof=4  alignof=4 
+long                         sizeof=8  alignof=8 
+unsigned long                sizeof=8  alignof=8 
+long long                    sizeof=8  alignof=8 
+unsigned long long           sizeof=8  alignof=8 
+float                        sizeof=4  alignof=4 
+double                       sizeof=8  alignof=8 
+long double                  sizeof=16 alignof=16
+void*                        sizeof=8  alignof=8 
+char*                        sizeof=8  alignof=8 
+std::size_t                  sizeof=8  alignof=8 
+std::ptrdiff_t               sizeof=8  alignof=8 
+
+<stdint> fixed-width integer types:
+
+std::int8_t                  sizeof=1  alignof=1 
+std::uint8_t                 sizeof=1  alignof=1 
+std::int16_t                 sizeof=2  alignof=2 
+std::uint16_t                sizeof=2  alignof=2 
+std::int32_t                 sizeof=4  alignof=4 
+std::uint32_t                sizeof=4  alignof=4 
+std::int64_t                 sizeof=8  alignof=8 
+std::uint64_t                sizeof=8  alignof=8 
+
+<stdint> least / fast / pointer integer types:
+
+std::int_least8_t            sizeof=1  alignof=1 
+std::uint_least8_t           sizeof=1  alignof=1 
+std::int_fast8_t             sizeof=1  alignof=1 
+std::uint_fast8_t            sizeof=1  alignof=1 
+std::int_least16_t           sizeof=2  alignof=2 
+std::uint_least16_t          sizeof=2  alignof=2 
+std::int_fast16_t            sizeof=8  alignof=8 
+std::uint_fast16_t           sizeof=8  alignof=8 
+std::int_least32_t           sizeof=4  alignof=4 
+std::uint_least32_t          sizeof=4  alignof=4 
+std::int_fast32_t            sizeof=8  alignof=8 
+std::uint_fast32_t           sizeof=8  alignof=8 
+std::int_least64_t           sizeof=8  alignof=8 
+std::uint_least64_t          sizeof=8  alignof=8 
+std::int_fast64_t            sizeof=8  alignof=8 
+std::uint_fast64_t           sizeof=8  alignof=8 
+std::intptr_t                sizeof=8  alignof=8 
+std::uintptr_t               sizeof=8  alignof=8 
+
+Max fundamental alignment-related type:
+
+std::max_align_t             sizeof=32 alignof=16
+
+Custom FluidSynth types:
+
+fluid_long_long_t            sizeof=8  alignof=8 
+SFChunk                      sizeof=8  alignof=4 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_ABI" end time: Nov 20 02:59 UTC
+"test_ABI" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/46 Testing: test_file_seek_tell
+34/46 Test: test_file_seek_tell
+Command: "/workspace/build3/test/test_file_seek_tell"
+Directory: /workspace/build3/test
+"test_file_seek_tell" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_file_seek_tell" end time: Nov 20 02:59 UTC
+"test_file_seek_tell" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/46 Testing: test_shell_server_auto_port
+35/46 Test: test_shell_server_auto_port
+Command: "/workspace/build3/test/test_shell_server_auto_port"
+Directory: /workspace/build3/test
+"test_shell_server_auto_port" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_shell_server_auto_port" end time: Nov 20 02:59 UTC
+"test_shell_server_auto_port" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/46 Testing: test_shell_parse_argv_internal
+36/46 Test: test_shell_parse_argv_internal
+Command: "/workspace/build3/test/test_shell_parse_argv_internal"
+Directory: /workspace/build3/test
+"test_shell_parse_argv_internal" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: parsing: help
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=1 actual=1
+fluidsynth: arg[0]: expected="help" actual="help"
+fluidsynth: parsing: set synth.reverb.room-size 1
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="set" actual="set"
+fluidsynth: arg[1]: expected="synth.reverb.room-size" actual="synth.reverb.room-size"
+fluidsynth: arg[2]: expected="1" actual="1"
+fluidsynth: parsing: load soundfont.sf2 0 10
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=4 actual=4
+fluidsynth: arg[0]: expected="load" actual="load"
+fluidsynth: arg[1]: expected="soundfont.sf2" actual="soundfont.sf2"
+fluidsynth: arg[2]: expected="0" actual="0"
+fluidsynth: arg[3]: expected="10" actual="10"
+fluidsynth: parsing: load 'test file name with single quotes' 0
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="load" actual="load"
+fluidsynth: arg[1]: expected="test file name with single quotes" actual="test file name with single quotes"
+fluidsynth: arg[2]: expected="0" actual="0"
+fluidsynth: parsing: load "test file name with double quotes" 1
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="load" actual="load"
+fluidsynth: arg[1]: expected="test file name with double quotes" actual="test file name with double quotes"
+fluidsynth: arg[2]: expected="1" actual="1"
+fluidsynth: parsing: load 'test unterminated single quote
+fluidsynth: result: expected=0 actual=0
+fluidsynth: parsing: load "test \"escaped quotes\"   inside quotes"
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=2 actual=2
+fluidsynth: arg[0]: expected="load" actual="load"
+fluidsynth: arg[1]: expected="test "escaped quotes"   inside quotes" actual="test "escaped quotes"   inside quotes"
+fluidsynth: parsing: load 'test \' impossible embedded single quote
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=6 actual=6
+fluidsynth: arg[0]: expected="load" actual="load"
+fluidsynth: arg[1]: expected="test \" actual="test \"
+fluidsynth: arg[2]: expected="impossible" actual="impossible"
+fluidsynth: arg[3]: expected="embedded" actual="embedded"
+fluidsynth: arg[4]: expected="single" actual="single"
+fluidsynth: arg[5]: expected="quote" actual="quote"
+fluidsynth: parsing: load 'test \' unterminated non-escaped'
+fluidsynth: result: expected=0 actual=0
+fluidsynth: parsing: comment#inside
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=1 actual=1
+fluidsynth: arg[0]: expected="comment#inside" actual="comment#inside"
+fluidsynth: parsing: comment #outside
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=1 actual=1
+fluidsynth: arg[0]: expected="comment" actual="comment"
+fluidsynth: parsing: use	tabs	also
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="use" actual="use"
+fluidsynth: arg[1]: expected="tabs" actual="tabs"
+fluidsynth: arg[2]: expected="also" actual="also"
+fluidsynth: parsing: escape\ space
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=1 actual=1
+fluidsynth: arg[0]: expected="escape space" actual="escape space"
+fluidsynth: parsing: escape \normal ch\ars
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="normal" actual="normal"
+fluidsynth: arg[2]: expected="chars" actual="chars"
+fluidsynth: parsing: escape \\backslash
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=2 actual=2
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="\backslash" actual="\backslash"
+fluidsynth: parsing: escape \' single quote
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=4 actual=4
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="'" actual="'"
+fluidsynth: arg[2]: expected="single" actual="single"
+fluidsynth: arg[3]: expected="quote" actual="quote"
+fluidsynth: parsing: escape \" double quote
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=4 actual=4
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected=""" actual="""
+fluidsynth: arg[2]: expected="double" actual="double"
+fluidsynth: arg[3]: expected="quote" actual="quote"
+fluidsynth: parsing: escape \\\ too
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=2 actual=2
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="\ too" actual="\ too"
+fluidsynth: parsing: escape \	a tab
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=3 actual=3
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="	a" actual="	a"
+fluidsynth: arg[2]: expected="tab" actual="tab"
+fluidsynth: parsing: escape "normal \chars and \\$ \\\$ special double quotes"
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=2 actual=2
+fluidsynth: arg[0]: expected="escape" actual="escape"
+fluidsynth: arg[1]: expected="normal \chars and \$ \$ special double quotes" actual="normal \chars and \$ \$ special double quotes"
+fluidsynth: parsing: "embed "double quotes" and \'single quotes\' and \" \'nested\'"
+fluidsynth: result: expected=1 actual=1
+fluidsynth: argc: expected=2 actual=2
+fluidsynth: arg[0]: expected="embed double" actual="embed double"
+fluidsynth: arg[1]: expected="quotes and \'single quotes\' and " \'nested\'" actual="quotes and \'single quotes\' and " \'nested\'"
+fluidsynth: parsing: trailing escape \
+fluidsynth: result: expected=0 actual=0
+fluidsynth: parsing: 
+fluidsynth: result: expected=0 actual=0
+fluidsynth: parsing: # comment only
+fluidsynth: result: expected=0 actual=0
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_shell_parse_argv_internal" end time: Nov 20 02:59 UTC
+"test_shell_parse_argv_internal" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/46 Testing: test_sample_pitch_calculation
+37/46 Test: test_sample_pitch_calculation
+Command: "/workspace/build3/test/test_sample_pitch_calculation"
+Directory: /workspace/build3/test
+"test_sample_pitch_calculation" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: SCALETUNE=100: pitch_no_adj=6000.0000, pitch_with_adj=6000.0000 (expected both 6000.0000)
+fluidsynth: SCALETUNE=50: pitch_no_adj=6000.0000, pitch_with_adj=6000.0000 (should both be equal, diff 0.0000)
+fluidsynth: SCALETUNE=50: pitch_no_adj=4500.0000, pitch_with_adj=4500.0000 (should both be equal, diff 0.0000)
+fluidsynth: SCALETUNE=50: pitch_no_adj=0.0000, pitch_with_adj=0.0000 (should both be equal, diff 0.0000)
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_sample_pitch_calculation" end time: Nov 20 02:59 UTC
+"test_sample_pitch_calculation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/46 Testing: test_mts_cc_tuning
+38/46 Test: test_mts_cc_tuning
+Command: "/workspace/build3/test/test_mts_cc_tuning"
+Directory: /workspace/build3/test
+"test_mts_cc_tuning" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_mts_cc_tuning" end time: Nov 20 02:59 UTC
+"test_mts_cc_tuning" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/46 Testing: test_voice_callback
+39/46 Test: test_voice_callback
+Command: "/workspace/build3/test/test_voice_callback"
+Directory: /workspace/build3/test
+"test_voice_callback" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"test_voice_callback" end time: Nov 20 02:59 UTC
+"test_voice_callback" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/46 Testing: test_voice_reuse_gain
+40/46 Test: test_voice_reuse_gain
+Command: "/workspace/build3/test/test_voice_reuse_gain"
+Directory: /workspace/build3/test
+"test_voice_reuse_gain" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_voice_reuse_gain" end time: Nov 20 02:59 UTC
+"test_voice_reuse_gain" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/46 Testing: test_basic_channel
+41/46 Test: test_basic_channel
+Command: "/workspace/build3/test/test_basic_channel"
+Directory: /workspace/build3/test
+"test_basic_channel" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: Channel 0 is disabled, event dropped!
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Channel 2 is disabled, event dropped!
+fluidsynth: Channel 3 is disabled, event dropped!
+fluidsynth: Channel 4 is disabled, event dropped!
+fluidsynth: Channel 5 is disabled, event dropped!
+fluidsynth: Channel 6 is disabled, event dropped!
+fluidsynth: Channel 7 is disabled, event dropped!
+fluidsynth: Channel 8 is disabled, event dropped!
+fluidsynth: Channel 9 is disabled, event dropped!
+fluidsynth: Channel 10 is disabled, event dropped!
+fluidsynth: Channel 11 is disabled, event dropped!
+fluidsynth: Channel 12 is disabled, event dropped!
+fluidsynth: Channel 13 is disabled, event dropped!
+fluidsynth: Channel 14 is disabled, event dropped!
+fluidsynth: Channel 15 is disabled, event dropped!
+fluidsynth: warning: Failed to configure channel groups, requested from channel 0 up to including chan 3 would overlap with already existing channel group containing channel 0
+fluidsynth: warning: Failed to configure channel groups, requested from channel 2 up to including chan 3 would overlap with already existing channel group containing channel 2
+fluidsynth: Channel 14 is disabled, event dropped!
+fluidsynth: warning: Failed to configure channel groups, requested from channel 6 up to including chan 9 would overlap with already existing basic channel 8
+fluidsynth: Channel 6 is disabled, event dropped!
+fluidsynth: Channel 13 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 3 to mode 0x3
+fluidsynth: Channel 4 is disabled, event dropped!
+fluidsynth: Channel 5 is disabled, event dropped!
+fluidsynth: Channel 6 is disabled, event dropped!
+fluidsynth: Channel 7 is disabled, event dropped!
+fluidsynth: Channel 8 is disabled, event dropped!
+fluidsynth: Channel 9 is disabled, event dropped!
+fluidsynth: Channel 10 is disabled, event dropped!
+fluidsynth: Channel 11 is disabled, event dropped!
+fluidsynth: Channel 12 is disabled, event dropped!
+fluidsynth: Channel 13 is disabled, event dropped!
+fluidsynth: Channel 14 is disabled, event dropped!
+fluidsynth: Channel 15 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 3 to mode 0x3
+fluidsynth: Channel 4 is disabled, event dropped!
+fluidsynth: Channel 5 is disabled, event dropped!
+fluidsynth: Channel 6 is disabled, event dropped!
+fluidsynth: Channel 7 is disabled, event dropped!
+fluidsynth: Channel 8 is disabled, event dropped!
+fluidsynth: Channel 9 is disabled, event dropped!
+fluidsynth: Channel 10 is disabled, event dropped!
+fluidsynth: Channel 11 is disabled, event dropped!
+fluidsynth: Channel 12 is disabled, event dropped!
+fluidsynth: Channel 13 is disabled, event dropped!
+fluidsynth: Channel 14 is disabled, event dropped!
+fluidsynth: Channel 15 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x0
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x0
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x0
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x0
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x0
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x3
+fluidsynth: warning: Failed to set channel 1 to POLY_OFF: Operation illegal, because channel is currently no basic channel.
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 1 to mode 0x3
+fluidsynth: warning: Failed to configure channel groups, requested from channel 0 up to including chan 16, but there are only 16 channels in total
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 1 to mode 0x3
+fluidsynth: Successfully configured channel group, from channel 2 up to including chan 15 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 2 up to including chan 4 to mode 0x3
+fluidsynth: Channel 5 is disabled, event dropped!
+fluidsynth: Ignoring cc7=20 - channel 5 is disabled and not a valid global channel either!
+fluidsynth: Ignoring cc7=50 - channel 0 is disabled and not a valid global channel either!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 3 to mode 0x1
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Successfully configured channel group, from channel 0 up to including chan 0 to mode 0x2
+fluidsynth: Channel 1 is disabled, event dropped!
+fluidsynth: Channel 2 is disabled, event dropped!
+fluidsynth: Ignoring cc64=0 - channel 1 is disabled and not a valid global channel either!
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"test_basic_channel" end time: Nov 20 02:59 UTC
+"test_basic_channel" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/46 Testing: test_rvoice_dsp_interpolate
+42/46 Test: test_rvoice_dsp_interpolate
+Command: "/workspace/build3/test/test_rvoice_dsp_interpolate"
+Directory: /workspace/build3/test
+"test_rvoice_dsp_interpolate" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+FluidSynth DSP Interpolation Unit Tests
+========================================
+
+Test A: Integer-phase passthrough
+  NONE: PASS (64 samples verified)
+  LINEAR: PASS (64 samples verified)
+  4TH_ORDER: PASS (64 samples verified)
+  SINC_MID: PASS (64 samples verified)
+  SINC_HIGH: PASS (64 samples verified)
+  SINC_HIGHEST: PASS (64 samples verified)
+
+Test B: Fractional-phase linear ramp
+  NONE (nearest): PASS (64 samples verified)
+  LINEAR: PASS (64 samples verified)
+  4TH_ORDER: PASS (64 samples verified)
+
+Test C: Constant sample (DC gain = 1)
+  Fractional phase
+    NONE: PASS (64 samples verified)
+    LINEAR: PASS (64 samples verified)
+    4TH_ORDER: PASS (64 samples verified)
+    SINC_MID: PASS (64 samples verified)
+    SINC_HIGH: PASS (64 samples verified)
+    SINC_HIGHEST: PASS (64 samples verified)
+
+Test D: Loop boundary (constant sample)
+  D1: first loop crossing (has_looped=0)
+    NONE: PASS
+    LINEAR: PASS
+    4TH_ORDER: PASS
+    SINC_MID: PASS
+    SINC_HIGH: PASS
+    SINC_HIGHEST: PASS
+
+Test E: Loop boundary wrap (periodic ramp)
+  LINEAR: PASS (64 samples)
+  4TH_ORDER: PASS (64 samples)
+  NONE: PASS (64 samples)
+
+Test F: 24-bit sample path
+  NONE: PASS (63 samples verified)
+  LINEAR: PASS (63 samples verified)
+  4TH_ORDER: PASS (63 samples verified)
+  SINC_MID: PASS (63 samples verified)
+  SINC_HIGH: PASS (63 samples verified)
+  SINC_HIGHEST: PASS (63 samples verified)
+
+Test G: High playback rate (pitch up)
+  G1: Non-looping
+    Rate 2.0x:
+      NONE: PASS (32 samples verified)
+      LINEAR: PASS (32 samples verified)
+      4TH_ORDER: PASS (32 samples verified)
+      SINC_MID: PASS (32 samples verified)
+      SINC_HIGH: PASS (32 samples verified)
+      SINC_HIGHEST: PASS (32 samples verified)
+    Rate 3.0x:
+      NONE: PASS (22 samples verified)
+      LINEAR: PASS (22 samples verified)
+      4TH_ORDER: PASS (22 samples verified)
+      SINC_MID: PASS (22 samples verified)
+      SINC_HIGH: PASS (22 samples verified)
+      SINC_HIGHEST: PASS (22 samples verified)
+    Rate 4.0x:
+      NONE: PASS (16 samples verified)
+      LINEAR: PASS (16 samples verified)
+      4TH_ORDER: PASS (16 samples verified)
+      SINC_MID: PASS (16 samples verified)
+      SINC_HIGH: PASS (16 samples verified)
+      SINC_HIGHEST: PASS (16 samples verified)
+    Rate 16.0x:
+      NONE: PASS (4 samples verified)
+      LINEAR: PASS (4 samples verified)
+      4TH_ORDER: PASS (4 samples verified)
+      SINC_MID: PASS (4 samples verified)
+      SINC_HIGH: PASS (4 samples verified)
+      SINC_HIGHEST: PASS (4 samples verified)
+    Rate 128.0x:
+      NONE: PASS (1 samples verified)
+      LINEAR: PASS (1 samples verified)
+      4TH_ORDER: PASS (1 samples verified)
+      SINC_MID: PASS (1 samples verified)
+      SINC_HIGH: PASS (1 samples verified)
+      SINC_HIGHEST: PASS (1 samples verified)
+    Rate 8192.0x:
+      NONE: PASS (1 samples verified)
+      LINEAR: PASS (1 samples verified)
+      4TH_ORDER: PASS (1 samples verified)
+      SINC_MID: PASS (1 samples verified)
+      SINC_HIGH: PASS (1 samples verified)
+      SINC_HIGHEST: PASS (1 samples verified)
+  G2: Looping
+    Rate 2.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+    Rate 3.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+    Rate 4.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+    Rate 16.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+    Rate 128.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+    Rate 8192.0x:
+      NONE: PASS (64 samples verified)
+      LINEAR: PASS (64 samples verified)
+      4TH_ORDER: PASS (64 samples verified)
+      SINC_MID: PASS (64 samples verified)
+      SINC_HIGH: PASS (64 samples verified)
+      SINC_HIGHEST: PASS (64 samples verified)
+
+Test H: Short loops
+  NONE (loop_len=2): PASS
+  LINEAR (loop_len=3): PASS
+  4TH_ORDER (loop_len=5): PASS
+  SINC_MID (loop_len=11): PASS
+  SINC_HIGH (loop_len=17): PASS
+  SINC_HIGHEST (loop_len=25): PASS
+
+Test I: Silence rendering
+  Non-looping: PASS (64 samples verified)
+  Looping: PASS (64 samples verified)
+
+Test J: Phase accumulation
+  100 iterations: PASS (final phase index: 14)
+
+Test K: End-of-sample behavior
+  NONE: PASS (returned 10 samples from position 54)
+  LINEAR: PASS (returned 10 samples from position 54)
+  4TH_ORDER: PASS (returned 10 samples from position 54)
+  SINC_MID: PASS (returned 10 samples from position 54)
+  SINC_HIGH: PASS (returned 10 samples from position 54)
+  SINC_HIGHEST: PASS (returned 10 samples from position 54)
+
+Test L: Sinc kernel centering
+  Odd orders:
+    L1 (order=1) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L3 (order=1) DC gain: PASS
+    L4 (order=1) peak at x=0.5: PASS
+    L1 (order=3) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=3) impulse@s[half] x=0.0: PASS (result=0.50000000, confirms non-trivial)
+    L3 (order=3) DC gain: PASS
+    L4 (order=3) peak at x=0.5: PASS
+    L1 (order=5) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=5) impulse@s[half] x=0.0: PASS (result=0.57294902, confirms non-trivial)
+    L3 (order=5) DC gain: PASS
+    L4 (order=5) peak at x=0.5: PASS
+    L1 (order=7) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=7) impulse@s[half] x=0.0: PASS (result=0.60588111, confirms non-trivial)
+    L3 (order=7) DC gain: PASS
+    L4 (order=7) peak at x=0.5: PASS
+    L1 (order=9) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=9) impulse@s[half] x=0.0: PASS (result=0.61713087, confirms non-trivial)
+    L3 (order=9) DC gain: PASS
+    L4 (order=9) peak at x=0.5: PASS
+    L1 (order=11) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=11) impulse@s[half] x=0.0: PASS (result=0.62385875, confirms non-trivial)
+    L3 (order=11) DC gain: PASS
+    L4 (order=11) peak at x=0.5: PASS
+    L1 (order=13) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=13) impulse@s[half] x=0.0: PASS (result=0.62730172, confirms non-trivial)
+    L3 (order=13) DC gain: PASS
+    L4 (order=13) peak at x=0.5: PASS
+    L1 (order=15) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=15) impulse@s[half] x=0.0: PASS (result=0.62970281, confirms non-trivial)
+    L3 (order=15) DC gain: PASS
+    L4 (order=15) peak at x=0.5: PASS
+    L1 (order=17) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=17) impulse@s[half] x=0.0: PASS (result=0.63117630, confirms non-trivial)
+    L3 (order=17) DC gain: PASS
+    L4 (order=17) peak at x=0.5: PASS
+    L1 (order=19) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=19) impulse@s[half] x=0.0: PASS (result=0.63229363, confirms non-trivial)
+    L3 (order=19) DC gain: PASS
+    L4 (order=19) peak at x=0.5: PASS
+  Even orders:
+    L1 (order=4) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=4) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=4) DC gain: PASS
+    L4 (order=4) peak at x=0.5: PASS
+    L1 (order=6) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=6) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=6) DC gain: PASS
+    L4 (order=6) peak at x=0.5: PASS
+    L1 (order=8) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=8) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=8) DC gain: PASS
+    L4 (order=8) peak at x=0.5: PASS
+    L1 (order=10) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=10) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=10) DC gain: PASS
+    L4 (order=10) peak at x=0.5: PASS
+    L1 (order=12) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=12) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=12) DC gain: PASS
+    L4 (order=12) peak at x=0.5: PASS
+    L1 (order=14) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=14) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=14) DC gain: PASS
+    L4 (order=14) peak at x=0.5: PASS
+    L1 (order=16) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=16) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=16) DC gain: PASS
+    L4 (order=16) peak at x=0.5: PASS
+    L1 (order=18) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=18) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=18) DC gain: PASS
+    L4 (order=18) peak at x=0.5: PASS
+    L1 (order=20) impulse@s[half] x=0.5: PASS (result=1.00000000)
+    L2 (order=20) impulse@s[half] x=0.0: PASS (result=0.00000000, confirms non-trivial)
+    L3 (order=20) DC gain: PASS
+    L4 (order=20) peak at x=0.5: PASS
+
+Test M: Sine wave interpolation (Wave_Sine_093)
+  Fitted sine: A=30942.0  phi=-2.6025 rad
+  M1: Constant phase_incr=1.0, 3 buffer iterations (all modes)
+    NONE: PASS (192 samples verified)
+    LINEAR: PASS (192 samples verified)
+    4TH_ORDER: PASS (192 samples verified)
+    SINC_MID: PASS (192 samples verified)
+    SINC_HIGH: PASS (192 samples verified)
+    SINC_HIGHEST: PASS (192 samples verified)
+  M2: Phase ramp (phase_incr 1.0 -> 2.0 in 11 buffer calls)
+    LINEAR: PASS (704 samples verified)
+    4TH_ORDER: PASS (704 samples verified)
+    SINC_MID: PASS (704 samples verified)
+    SINC_HIGH: PASS (704 samples verified)
+    SINC_HIGHEST: PASS (704 samples verified)
+
+Test N: Negative phase after rounded loop wrap
+  NONE: PASS
+  SILENCE: PASS
+
+========================================
+All tests PASSED
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"test_rvoice_dsp_interpolate" end time: Nov 20 02:59 UTC
+"test_rvoice_dsp_interpolate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/46 Testing: test_iir_coefficient_reuse
+43/46 Test: test_iir_coefficient_reuse
+Command: "/workspace/build3/test/test_iir_coefficient_reuse"
+Directory: /workspace/build3/test
+"test_iir_coefficient_reuse" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_iir_coefficient_reuse" end time: Nov 20 02:59 UTC
+"test_iir_coefficient_reuse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/46 Testing: test_threading
+44/46 Test: test_threading
+Command: "/workspace/build3/test/test_threading"
+Directory: /workspace/build3/test
+"test_threading" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: incremented 97947 regular vs. 100000 atomic
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"test_threading" end time: Nov 20 02:59 UTC
+"test_threading" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/46 Testing: test_rvoice_mixer_worker_startup
+45/46 Test: test_rvoice_mixer_worker_startup
+Command: "/workspace/build3/test/test_rvoice_mixer_worker_startup"
+Directory: /workspace/build3/test
+"test_rvoice_mixer_worker_startup" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.77 sec
+----------------------------------------------------------
+Test Passed.
+"test_rvoice_mixer_worker_startup" end time: Nov 20 02:59 UTC
+"test_rvoice_mixer_worker_startup" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/46 Testing: VintageDreamsWaves-v2.sf2_dump_test
+46/46 Test: VintageDreamsWaves-v2.sf2_dump_test
+Command: "/tmp/cmake-dl/cmake-3.31.6-linux-x86_64/bin/cmake" "-Dtest_cmd=/workspace/build3/test/utils/dump_sfont" "-Dtest_args=/workspace/sf2/VintageDreamsWaves-v2.sf2 VintageDreamsWaves-v2.sf2.yml" "-Dtest_output=VintageDreamsWaves-v2.sf2.yml" "-Dexpected_output=/workspace/sf2/VintageDreamsWaves-v2.sf2.yml" "-P" "/workspace/cmake_admin/RunOutputTest.cmake"
+Directory: /workspace/build3/test
+"VintageDreamsWaves-v2.sf2_dump_test" start time: Nov 20 02:59 UTC
+Output:
+----------------------------------------------------------
+fluidsynth: warning: Sample 'SineWave': ROM sample ignored
+<end of output>
+Test time =   0.73 sec
+----------------------------------------------------------
+Test Passed.
+"VintageDreamsWaves-v2.sf2_dump_test" end time: Nov 20 02:59 UTC
+"VintageDreamsWaves-v2.sf2_dump_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 20 02:59 UTC

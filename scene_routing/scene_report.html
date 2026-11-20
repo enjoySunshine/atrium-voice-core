@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>洞穴 · 木厅 · 院子 · 井口 — 场景混音路由报告</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #171c24;
+    --panel2: #1f2630;
+    --line: #2b3442;
+    --text: #d8dee9;
+    --muted: #8b97a8;
+    --accent: #6cc2ff;
+    --ok: #4cd07d;
+    --bad: #ff6b6b;
+    --move: #f5c451;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  header {
+    padding: 20px 28px 14px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #141a22, #0e1116);
+  }
+  h1 { margin: 0 0 6px; font-size: 20px; font-weight: 600; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .summary {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    padding: 14px 28px;
+  }
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-width: 130px;
+  }
+  .stat .k { color: var(--muted); font-size: 12px; }
+  .stat .v { font-size: 18px; font-weight: 600; margin-top: 2px; }
+  .v.ok { color: var(--ok); }
+  .v.bad { color: var(--bad); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 8px 28px 32px;
+  }
+  .space {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .space h2 {
+    margin: 0;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    background: var(--panel2);
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .space h2 .en { color: var(--muted); font-weight: 400; font-size: 12px; }
+  .trace {
+    padding: 8px 14px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .trace:last-child { border-bottom: none; }
+  .trace .head {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .trace .head .name { color: var(--text); font-weight: 600; }
+  canvas {
+    width: 100%; height: 64px;
+    display: block;
+    background: #0b0e13;
+    border-radius: 4px;
+  }
+  .note {
+    margin: 0 28px 28px;
+    padding: 12px 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .note b { color: var(--text); }
+  .loading { padding: 40px; color: var(--muted); }
+  .silent-tag { color: var(--ok); font-size: 11px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>场景混音路由 · 四空间渲染报告</h1>
+  <div class="sub">
+    采样率 <span id="sr">–</span> Hz · 每空间一对立体声干声 + 一份混响 + 一份合唱 ·
+    滴水（中央 C）在门槛处由洞穴改入木厅，脚步（低八度）始终留在洞穴
+  </div>
+</header>
+
+<div class="summary" id="summary"><div class="loading">正在读取合成器缓冲数据…</div></div>
+
+<div class="note" id="align-note" hidden></div>
+
+<div class="grid" id="grid"></div>
+
+<div class="note">
+  波形由合成器逐采样渲染的缓冲按桶（每桶取 min/max）抽取绘制，页面本身不发声、不启动任何服务，
+  直接用浏览器打开本文件即可查看。黄色竖线为换空间的采样点
+  <b id="move-line">22050</b>（半秒）。木厅干声与“一开始就在木厅”的滴水波形在该点之后逐采样对齐，
+  该点之前为静音。所有“对得上”的比较绝对差阈值为 0.0001（满幅按 1 算）。
+</div>
+
+<script src="scene_report_data.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var D = window.SCENE_REPORT_DATA;
+  if (!D) {
+    document.getElementById("summary").innerHTML =
+      '<div class="loading">未能加载 scene_report_data.js，请先运行渲染程序生成数据。</div>';
+    return;
+  }
+
+  var SPACE_LABELS = {
+    cave: "洞穴",
+    wooden_hall: "木厅",
+    yard: "院子",
+    well_head: "井口"
+  };
+  var TRACE_META = [
+    { key: "dry_L",    label: "干声 左",   color: "#6cc2ff" },
+    { key: "dry_R",    label: "干声 右",   color: "#9ad8ff" },
+    { key: "reverb_L", label: "混响 左",   color: "#b794f6" },
+    { key: "reverb_R", label: "混响 右",   color: "#d2b8ff" },
+    { key: "chorus_L", label: "合唱 左",   color: "#4cd07d" },
+    { key: "chorus_R", label: "合唱 右",   color: "#8ce6b0" }
+  ];
+  var TOL = 0.0001;
+
+  document.getElementById("sr").textContent = D.sample_rate;
+  document.getElementById("move-line").textContent = D.move_tick;
+
+  /* ---- summary stats ---- */
+  var allPass = D.checks_failed === 0;
+  var stats = [
+    { k: "比对检查", v: D.checks_total + " 项", cls: "" },
+    { k: "通过 / 失败", v: (D.checks_total - D.checks_failed) + " / " + D.checks_failed,
+      cls: allPass ? "ok" : "bad" },
+    { k: "渲染长度", v: D.length + " 采样", cls: "" },
+    { k: "换空间点", v: "第 " + D.move_tick + " 采样", cls: "" },
+    { k: "木厅对齐起点 (L / R)", v: D.wood_align_start[0] + " / " + D.wood_align_start[1], cls: "" },
+    { k: "对齐最大绝对差 (L / R)", v: fmt(D.wood_align_maxdiff[0]) + " / " + fmt(D.wood_align_maxdiff[1]),
+      cls: D.wood_align_maxdiff[0] <= TOL && D.wood_align_maxdiff[1] <= TOL ? "ok" : "bad" }
+  ];
+  document.getElementById("summary").innerHTML = stats.map(function (s) {
+    return '<div class="stat"><div class="k">' + s.k + '</div>' +
+           '<div class="v ' + (s.cls || "") + '">' + s.v + '</div></div>';
+  }).join("");
+
+  /* ---- alignment note ---- */
+  var an = document.getElementById("align-note");
+  an.hidden = false;
+  an.innerHTML = "木厅干声从第 <b>" + D.wood_align_start[0] +
+    "</b> 个采样（左）/ <b>" + D.wood_align_start[1] +
+    "</b> 个采样（右）开始，与那条从第 0 个采样就待在木厅的滴水波形逐采样对齐；" +
+    "该点之前木厅干声峰值低于 0.0001。对齐区间最大绝对差：左 <b>" +
+    fmt(D.wood_align_maxdiff[0]) + "</b>，右 <b>" + fmt(D.wood_align_maxdiff[1]) + "</b>。";
+
+  /* ---- waveform panels ---- */
+  var grid = document.getElementById("grid");
+
+  D.spaces.forEach(function (space) {
+    var card = document.createElement("section");
+    card.className = "space";
+
+    var h2 = document.createElement("h2");
+    h2.innerHTML = "<span>" + (SPACE_LABELS[space.name] || space.name) +
+      "</span><span class='en'>" + space.name + "</span>";
+    card.appendChild(h2);
+
+    space.traces.forEach(function (trace, ti) {
+      var meta = TRACE_META[ti];
+      var wrap = document.createElement("div");
+      wrap.className = "trace";
+
+      var silent = trace.peak < TOL;
+      var head = document.createElement("div");
+      head.className = "head";
+      head.innerHTML = "<span class='name'>" + meta.label + "</span>" +
+        "<span>峰值 " + fmt(trace.peak) +
+        (silent ? " <span class='silent-tag'>静音</span>" : "") + "</span>";
+      wrap.appendChild(head);
+
+      var cv = document.createElement("canvas");
+      cv.dataset.trace = meta.key;
+      wrap.appendChild(cv);
+      card.appendChild(wrap);
+
+      draw(cv, trace.buckets, meta.color, silent, D.move_tick, D.length);
+    });
+
+    grid.appendChild(card);
+  });
+
+  function draw(canvas, buckets, color, silent, moveTick, totalLen) {
+    var dpr = window.devicePixelRatio || 1;
+    var cssW = canvas.clientWidth || 520;
+    var cssH = 64;
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    var W = cssW, H = cssH;
+    var mid = H / 2;
+
+    /* center line */
+    ctx.strokeStyle = "#222a35";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, mid + 0.5);
+    ctx.lineTo(W, mid + 0.5);
+    ctx.stroke();
+
+    /* move marker */
+    var mx = (moveTick / totalLen) * W;
+    ctx.strokeStyle = "rgba(245,196,81,0.85)";
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.moveTo(mx, 2);
+    ctx.lineTo(mx, H - 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (silent) return;
+
+    /* global scale across the trace so amplitudes are comparable */
+    var maxAbs = 0;
+    buckets.forEach(function (b) {
+      maxAbs = Math.max(maxAbs, Math.abs(b[0]), Math.abs(b[1]));
+    });
+    if (maxAbs <= 0) return;
+
+    var bw = W / buckets.length;
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.9;
+    for (var i = 0; i < buckets.length; i++) {
+      var lo = (buckets[i][0] / maxAbs) * (mid - 4);
+      var hi = (buckets[i][1] / maxAbs) * (mid - 4);
+      var x = i * bw;
+      var y0 = mid - hi;       /* positive extent upward */
+      var y1 = mid - lo;       /* negative extent downward */
+      ctx.fillRect(x, y0, Math.max(1, bw - 0.3), Math.max(1, y1 - y0));
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function fmt(v) {
+    if (Math.abs(v) < 1e-12) return "0";
+    if (Math.abs(v) < 0.001) return v.toExponential(3);
+    return v.toPrecision(4);
+  }
+})();
+</script>
+</body>
+</html>

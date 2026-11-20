@@ -241,6 +241,7 @@ new_fluid_voice(fluid_rvoice_eventhandler_t *handler, fluid_real_t output_rate, 
     voice->chan = NO_CHANNEL;
     voice->key = 0;
     voice->vel = 0;
+    voice->space = -1; /* no explicit space: follow the MIDI channel group */
     voice->eventhandler = handler;
     voice->channel = NULL;
     voice->sample = NULL;
@@ -357,14 +358,33 @@ fluid_voice_init(fluid_voice_t *voice, fluid_sample_t *sample,
 
     UPDATE_RVOICE_R1(fluid_rvoice_set_synth_gain, voice->synth_gain);
 
-    i = 2 * channel->synth->audio_groups;
-    i += (voice->chan % channel->synth->effects_groups) * channel->synth->effects_channels;
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 2, i + SYNTH_REVERB_CHANNEL);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 3, i + SYNTH_CHORUS_CHANNEL);
+    /* By default a voice follows its MIDI channel's group (the historical
+     * behaviour). When the voice has been explicitly assigned a space it
+     * renders into that space's dry stereo group and effects unit instead,
+     * independently of its channel. */
+    {
+        int dry_group, fx_group;
 
-    i = 2 * (voice->chan % channel->synth->audio_groups);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 0, i);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 1, i + 1);
+        if(voice->space >= 0)
+        {
+            dry_group = voice->space % channel->synth->audio_groups;
+            fx_group = voice->space % channel->synth->effects_groups;
+        }
+        else
+        {
+            dry_group = voice->chan % channel->synth->audio_groups;
+            fx_group = voice->chan % channel->synth->effects_groups;
+        }
+
+        i = 2 * channel->synth->audio_groups;
+        i += fx_group * channel->synth->effects_channels;
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 2, i + SYNTH_REVERB_CHANNEL);
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 3, i + SYNTH_CHORUS_CHANNEL);
+
+        i = 2 * dry_group;
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 0, i);
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 1, i + 1);
+    }
 
     return FLUID_OK;
 }
@@ -1900,6 +1920,44 @@ int fluid_voice_set_gain(fluid_voice_t *voice, fluid_real_t gain)
     UPDATE_RVOICE_BUFFERS_AMP(fluid_rvoice_buffers_set_amp, 3, chorus);
 
     return FLUID_OK;
+}
+
+/**
+ * Assign a playing voice to a space (dry stereo group + matching
+ * reverb/chorus unit). The voice keeps sounding without a new attack.
+ *
+ * @param voice the voice to move
+ * @param space target space index, must be < synth.audio_groups
+ * @param at_tick absolute sample position (synth ticks) at which the
+ *   route changes. When <= the current tick the change is immediate.
+ */
+int fluid_voice_set_space(fluid_voice_t *voice, int space, unsigned int at_tick)
+{
+    fluid_synth_t *synth;
+    fluid_rvoice_param_t param[MAX_EVENT_PARAMS];
+    unsigned int now;
+
+    fluid_return_val_if_fail(voice != NULL && voice->channel != NULL, FLUID_FAILED);
+
+    synth = voice->channel->synth;
+
+    if(space < 0 || space >= synth->audio_groups)
+    {
+        return FLUID_FAILED;
+    }
+
+    voice->space = space;
+
+    now = fluid_synth_get_ticks(synth);
+
+    param[0].i = space;
+    param[1].i = synth->audio_groups;
+    /* negative => apply immediately; otherwise the absolute cut tick */
+    param[2].i = (at_tick <= now) ? -1 : (int)at_tick;
+
+    return fluid_rvoice_eventhandler_push(voice->eventhandler,
+                                          fluid_rvoice_set_route,
+                                          voice->rvoice, param);
 }
 
 /* - Scan the loop

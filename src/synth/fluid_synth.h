@@ -192,6 +192,10 @@ struct _fluid_synth_t
     int portamento_time_has_seen_lsb;                     /**< Flag to track if LSB has been seen (for auto mode) */
 
     fluid_iir_sincos_t iir_sincos_table[SINCOS_TAB_SIZE]; /**< Table of sin/cos values for IIR filter */
+
+    /** Pending sample-accurate voice space changes, applied from the
+     * render thread at the scheduled tick. */
+    struct _fluid_pending_route_t *pending_routes;
 };
 
 extern fluid_mod_t default_vel2att_mod;

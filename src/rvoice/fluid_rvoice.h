@@ -164,6 +164,13 @@ struct _fluid_rvoice_t
     fluid_iir_filter_t resonant_custom_filter; /* optional custom/general-purpose IIR resonant filter */
     fluid_rvoice_buffers_t buffers;
 
+    /* Multi-space routing: a voice can be assigned to a "space" (one of
+     * the synth's stereo audio groups with its own reverb/chorus unit)
+     * and move between spaces sample-accurately while playing. */
+    int route_group_count;   /**< number of stereo dry groups (for mapping math) */
+    int pending_space;       /**< space to switch to, or -1 when no switch is queued */
+    unsigned int route_at;   /**< absolute render tick at which the pending switch happens */
+
     /* Finished callback, invoked from the render thread when the rvoice
      * finishes and is about to be removed from the mixer's active list. */
     fluid_voice_callback_t finished_cb;
@@ -176,6 +183,17 @@ int fluid_rvoice_write(fluid_rvoice_t *voice, fluid_real_t *dsp_buf);
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_amp);
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping);
+
+/* Assign a voice to a space (dry stereo group + matching reverb/chorus
+ * unit). group_count is the number of stereo dry groups. When the third
+ * parameter is >= 0 it is the absolute render tick at which the route
+ * changes (sample-accurate, no retrigger); when negative it changes
+ * immediately. */
+DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_set_route);
+
+/* Immediately repoint a voice's four mixdown buffers to a space.
+ * Called by the mixer when a pending route change becomes due. */
+void fluid_rvoice_apply_route_pub(fluid_rvoice_t *voice, int space, int group_count);
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_noteoff);
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_voiceoff);

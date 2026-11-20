@@ -643,6 +643,69 @@ void fluid_sample_timer_reset(fluid_synth_t *synth, fluid_sample_timer_t *timer)
 
 /***************************************************************
  *
+ *            SAMPLE-ACCURATE VOICE SPACE (ROOM) ROUTING
+ *
+ ***************************************************************/
+
+/* A queued request to move a voice into another space at a given tick. */
+typedef struct _fluid_pending_route_t
+{
+    struct _fluid_pending_route_t *next;
+    fluid_voice_t *voice;
+    unsigned int voice_id; /* guard against voice-pool reuse */
+    int space;
+    unsigned int tick;
+} fluid_pending_route_t;
+
+/* Called from the render thread before each block is mixed: apply any
+ * route changes whose tick falls into the block that is about to be
+ * rendered (or that are already overdue). The rvoice event gets queued
+ * and dispatched immediately so it is active for the upcoming mixer
+ * render, and the mixer performs the actual cut at the exact sample. */
+static void
+fluid_synth_apply_pending_routes(fluid_synth_t *synth, unsigned int block_start_tick)
+{
+    fluid_pending_route_t **pp = &synth->pending_routes;
+
+    while(*pp != NULL)
+    {
+        fluid_pending_route_t *pr = *pp;
+
+        if(pr->tick <= block_start_tick + FLUID_BUFSIZE)
+        {
+            if(fluid_voice_is_playing(pr->voice) && pr->voice->id == pr->voice_id
+                    && pr->space >= 0 && pr->space < synth->audio_groups)
+            {
+                fluid_voice_set_space(pr->voice, pr->space, pr->tick);
+            }
+
+            *pp = pr->next;
+            FLUID_FREE(pr);
+        }
+        else
+        {
+            pp = &pr->next;
+        }
+    }
+}
+
+static void
+fluid_synth_free_pending_routes(fluid_synth_t *synth)
+{
+    fluid_pending_route_t *pr = synth->pending_routes;
+
+    while(pr != NULL)
+    {
+        fluid_pending_route_t *next = pr->next;
+        FLUID_FREE(pr);
+        pr = next;
+    }
+
+    synth->pending_routes = NULL;
+}
+
+/***************************************************************
+ *
  *                      FLUID SYNTH
  */
 
@@ -1318,6 +1381,9 @@ delete_fluid_synth(fluid_synth_t *synth)
     }
 
     delete_fluid_rvoice_eventhandler(synth->eventhandler);
+
+    /* free any scheduled voice space changes */
+    fluid_synth_free_pending_routes(synth);
 
     /* delete all the SoundFonts */
     for(list = synth->sfont; list; list = fluid_list_next(list))
@@ -5172,23 +5238,47 @@ fluid_synth_render_blocks(fluid_synth_t *synth, int blockcount)
         blockcount = maxblocks;
     }
 
-    for(i = 0; i < blockcount; i++)
+    /* Absolute tick of the first sample the mixer is about to render. */
     {
-        fluid_sample_timer_process(synth);
-        fluid_synth_add_ticks(synth, FLUID_BUFSIZE);
+        unsigned int start_tick = fluid_synth_get_ticks(synth);
 
-        /* If events have been queued waiting for fluid_rvoice_eventhandler_dispatch_all()
-         * (should only happen with parallel render) stop processing and go for rendering
-         */
-        if(fluid_rvoice_eventhandler_dispatch_count(synth->eventhandler))
+        for(i = 0; i < blockcount; i++)
         {
-            // Something has happened, we can't process more
-            blockcount = i + 1;
-            break;
-        }
-    }
+            /* Apply sample-accurate voice space changes scheduled inside
+             * this block before the ticks advance, then dispatch the rvoice
+             * events immediately so the mixer can cut at the exact sample. */
+            if(synth->pending_routes != NULL)
+            {
+                /* fluid_synth_apply_pending_routes() pushes rvoice events into
+                 * the event handler's staging area (queue_stored); they only
+                 * become visible/dispatchable after a flush. Do both
+                 * unconditionally so a scheduled move applies in exactly the
+                 * block that contains its target tick. */
+                fluid_synth_apply_pending_routes(synth, fluid_synth_get_ticks(synth));
+                fluid_rvoice_eventhandler_flush(synth->eventhandler);
+                fluid_rvoice_eventhandler_dispatch_all(synth->eventhandler);
+            }
 
-    fluid_check_fpe("fluid_sample_timer_process");
+            fluid_sample_timer_process(synth);
+            fluid_synth_add_ticks(synth, FLUID_BUFSIZE);
+
+            /* If events have been queued waiting for fluid_rvoice_eventhandler_dispatch_all()
+             * (should only happen with parallel render) stop processing and go for rendering
+             */
+            if(fluid_rvoice_eventhandler_dispatch_count(synth->eventhandler))
+            {
+                // Something has happened, we can't process more
+                blockcount = i + 1;
+                break;
+            }
+        }
+
+        fluid_check_fpe("fluid_sample_timer_process");
+
+        /* Tell the mixer the absolute tick of its first output sample so
+         * pending route changes cut at the exact sample. */
+        fluid_rvoice_mixer_set_render_tick(synth->eventhandler->mixer, start_tick);
+    }
 
     blockcount = fluid_rvoice_mixer_render(synth->eventhandler->mixer, blockcount);
 
@@ -6049,6 +6139,118 @@ fluid_synth_get_voicelist(fluid_synth_t *synth, fluid_voice_t *buf[], int bufsiz
     }
 
     fluid_synth_api_exit(synth);
+}
+
+/**
+ * Number of spaces (rooms) of the synth. A space is one stereo dry
+ * audio group together with its own reverb and chorus unit.
+ */
+int fluid_synth_count_spaces(fluid_synth_t *synth)
+{
+    int result;
+    fluid_return_val_if_fail(synth != NULL, 0);
+    fluid_synth_api_enter(synth);
+    result = synth->audio_groups;
+    fluid_synth_api_exit(synth);
+    return result;
+}
+
+/**
+ * Immediately assign a playing voice to a space. The voice keeps
+ * sounding (no new attack); its dry signal, reverb send and chorus send
+ * move together. Other voices on the same MIDI channel are unaffected.
+ *
+ * @param synth FluidSynth instance
+ * @param voice the playing voice to move
+ * @param space target space, 0 <= space < fluid_synth_count_spaces()
+ * @return #FLUID_OK on success, #FLUID_FAILED otherwise
+ */
+int fluid_synth_voice_set_space(fluid_synth_t *synth, fluid_voice_t *voice, int space)
+{
+    int ret;
+    fluid_return_val_if_fail(synth != NULL && voice != NULL, FLUID_FAILED);
+    fluid_synth_api_enter(synth);
+
+    if(space < 0 || space >= synth->audio_groups)
+    {
+        fluid_synth_api_exit(synth);
+        return FLUID_FAILED;
+    }
+
+    ret = fluid_voice_set_space(voice, space, fluid_synth_get_ticks(synth));
+    fluid_synth_api_exit(synth);
+    return ret;
+}
+
+/**
+ * Schedule a sample-accurate space change of a playing voice.
+ *
+ * The route (dry stereo pair + reverb/chorus sends) changes at exactly
+ * @p tick audio samples from the start of the stream, with no new
+ * attack. Samples before @p tick remain in the old space; from @p tick
+ * on the voice is rendered into the new space. The old space's reverb
+ * keeps ringing with the signal already sent to it.
+ *
+ * @param synth FluidSynth instance
+ * @param voice the playing voice to move
+ * @param space target space, 0 <= space < fluid_synth_count_spaces()
+ * @param tick absolute sample position of the change (see
+ *   fluid_synth_get_ticks()); values in the past apply immediately
+ * @return #FLUID_OK on success, #FLUID_FAILED otherwise
+ */
+int fluid_synth_voice_set_space_at(fluid_synth_t *synth, fluid_voice_t *voice,
+                                   int space, unsigned int tick)
+{
+    fluid_pending_route_t *pr;
+
+    fluid_return_val_if_fail(synth != NULL && voice != NULL, FLUID_FAILED);
+    fluid_synth_api_enter(synth);
+
+    if(space < 0 || space >= synth->audio_groups)
+    {
+        fluid_synth_api_exit(synth);
+        return FLUID_FAILED;
+    }
+
+    if(tick <= fluid_synth_get_ticks(synth))
+    {
+        int ret = fluid_voice_set_space(voice, space, tick);
+        fluid_synth_api_exit(synth);
+        return ret;
+    }
+
+    pr = FLUID_NEW(fluid_pending_route_t);
+
+    if(pr == NULL)
+    {
+        fluid_synth_api_exit(synth);
+        return FLUID_FAILED;
+    }
+
+    pr->voice = voice;
+    pr->voice_id = voice->id;
+    pr->space = space;
+    pr->tick = tick;
+    pr->next = synth->pending_routes;
+    synth->pending_routes = pr;
+
+    fluid_synth_api_exit(synth);
+    return FLUID_OK;
+}
+
+/**
+ * Get the space a voice is currently assigned to.
+ * @return space index, or -1 when the voice still follows its MIDI
+ * channel's default group
+ */
+int fluid_synth_voice_get_space(fluid_synth_t *synth, fluid_voice_t *voice)
+{
+    int result;
+    fluid_return_val_if_fail(synth != NULL && voice != NULL, -1);
+    fluid_synth_api_enter(synth);
+    result = voice->space;
+    fluid_synth_api_exit(synth);
+    return result;
 }
 
 /**

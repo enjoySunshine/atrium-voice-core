@@ -123,6 +123,29 @@ FLUIDSYNTH_API fluid_voice_t *fluid_synth_alloc_voice(fluid_synth_t *synth,
 FLUIDSYNTH_API void fluid_synth_start_voice(fluid_synth_t *synth, fluid_voice_t *voice);
 FLUIDSYNTH_API void fluid_synth_get_voicelist(fluid_synth_t *synth,
         fluid_voice_t *buf[], int bufsize, int ID);
+
+/**
+ * @defgroup spaces Spaces (rooms)
+ * @ingroup synth
+ *
+ * A space is one stereo dry audio group with its own dedicated reverb
+ * and chorus unit. The number of spaces is configured with the
+ * @setting{synth.audio-groups} and @setting{synth.effects-groups}
+ * settings (set both to the same value). Every playing voice can be
+ * assigned to a space and moved between spaces sample-accurately while
+ * it keeps sounding, independently of the MIDI channel it plays on.
+ *
+ * @{
+ */
+FLUIDSYNTH_API int fluid_synth_count_spaces(fluid_synth_t *synth);
+FLUIDSYNTH_API int fluid_synth_voice_set_space(fluid_synth_t *synth,
+        fluid_voice_t *voice, int space);
+FLUIDSYNTH_API int fluid_synth_voice_set_space_at(fluid_synth_t *synth,
+        fluid_voice_t *voice, int space, unsigned int tick);
+FLUIDSYNTH_API int fluid_synth_voice_get_space(fluid_synth_t *synth,
+        fluid_voice_t *voice);
+/** @} Spaces */
+
 /** @} Voice Control */
 
 
