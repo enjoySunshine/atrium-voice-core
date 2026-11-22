@@ -431,20 +431,23 @@ get_dest_buf(fluid_rvoice_buffers_t *buffers, int index,
  *
  * @param buffers Destination buffer(s)
  * @param dsp_buf Mono sample source
- * @param start_block starting sample in dsp_buf
- * @param sample_count number of samples to mix following \c start_block
+ * @param start_sample starting sample in dsp_buf (and in the destination buffers)
+ * @param sample_count number of samples to mix following \c start_sample
  * @param dest_bufs Array of buffers to mixdown to
  * @param dest_bufcount Length of dest_bufs (i.e count of buffers)
  */
 static void
-fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
-                         const fluid_real_t *FLUID_RESTRICT dsp_buf,
-                         int start_block, int sample_count,
-                         fluid_real_t **dest_bufs, int dest_bufcount)
+fluid_rvoice_buffers_mix_range(fluid_rvoice_buffers_t *buffers,
+                               const fluid_real_t *FLUID_RESTRICT dsp_buf,
+                               int start_sample, int sample_count,
+                               fluid_real_t **dest_bufs, int dest_bufcount)
 {
     /* buffers count to mixdown to */
     int bufcount = buffers->count;
     int i, dsp_i;
+    /* Whether start_sample sits on a FLUID_BUFSIZE boundary. Only then may the
+     * vectorized (aligned) mix loops be used. */
+    int aligned = (start_sample % FLUID_BUFSIZE) == 0;
 
     /* if there is nothing to mix, return immediately */
     if(sample_count <= 0 || dest_bufcount <= 0)
@@ -453,7 +456,7 @@ fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
     }
 
     FLUID_ASSERT((uintptr_t)dsp_buf % FLUID_DEFAULT_ALIGNMENT == 0);
-    FLUID_ASSERT((uintptr_t)(&dsp_buf[start_block * FLUID_BUFSIZE]) % FLUID_DEFAULT_ALIGNMENT == 0);
+    FLUID_ASSERT(!aligned || (uintptr_t)(&dsp_buf[start_sample]) % FLUID_DEFAULT_ALIGNMENT == 0);
 
     /* mixdown for each buffer */
     for(i = 0; i < bufcount; i++)
@@ -476,7 +479,7 @@ fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
          *
          * For the first FLUID_BUFSIZE samples, we linearly interpolate the buffers amplitude to
          * avoid clicks/pops when rapidly changing the channels panning (issue 768).
-         * 
+         *
          * We could have squashed this into one single loop by using an if clause within the loop body.
          * But it seems like having two separate loops is easier for compilers to understand, and therefore
          * auto-vectorizing the loops.
@@ -486,20 +489,20 @@ fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
             // scalar loop variant, the voice will have finished afterwards
             for(dsp_i = 0; dsp_i < sample_count; dsp_i++)
             {
-                buf[start_block * FLUID_BUFSIZE + dsp_i] += current_amp * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
+                buf[start_sample + dsp_i] += current_amp * dsp_buf[start_sample + dsp_i];
                 current_amp += amp_incr;
             }
         }
-        else
+        else if(aligned)
         {
             // here goes the vectorizable loop
             #pragma omp simd aligned(dsp_buf,buf:FLUID_DEFAULT_ALIGNMENT)
             for(dsp_i = 0; dsp_i < FLUID_BUFSIZE; dsp_i++)
             {
                 // We cannot simply increment current_amp by amp_incr during every iteration, as this would create a dependency and prevent vectorization.
-                buf[start_block * FLUID_BUFSIZE + dsp_i] += (current_amp + amp_incr * dsp_i) * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
+                buf[start_sample + dsp_i] += (current_amp + amp_incr * dsp_i) * dsp_buf[start_sample + dsp_i];
             }
-            
+
             // we have reached the target_amp
             if(target_amp > 0)
             {
@@ -512,13 +515,82 @@ fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
                     // in between.
                     // A good compiler should understand: Aha, so I don't need to add a peel loop when vectorizing
                     // this loop. Great.
-                    buf[start_block * FLUID_BUFSIZE + dsp_i] += target_amp * dsp_buf[start_block * FLUID_BUFSIZE + dsp_i];
+                    buf[start_sample + dsp_i] += target_amp * dsp_buf[start_sample + dsp_i];
                 }
             }
         }
-        
+        else
+        {
+            /* start_sample is not block aligned (this only happens right at a
+             * sample-accurate output remap): use scalar loops, computing the
+             * very same values the vectorized variants would. */
+            for(dsp_i = 0; dsp_i < FLUID_BUFSIZE; dsp_i++)
+            {
+                buf[start_sample + dsp_i] += (current_amp + amp_incr * dsp_i) * dsp_buf[start_sample + dsp_i];
+            }
+
+            for(dsp_i = FLUID_BUFSIZE; dsp_i < sample_count; dsp_i++)
+            {
+                buf[start_sample + dsp_i] += target_amp * dsp_buf[start_sample + dsp_i];
+            }
+        }
+
         buffers->bufs[i].current_amp = target_amp;
     }
+}
+
+/* Apply a pending output remap ("space" switch) to the buffer mappings. */
+static FLUID_INLINE void
+fluid_rvoice_buffers_apply_remap(fluid_rvoice_buffers_t *buffers)
+{
+    int i;
+
+    for(i = 0; i < FLUID_RVOICE_MAX_BUFS; i++)
+    {
+        buffers->bufs[i].mapping = buffers->remap_mapping[i];
+    }
+
+    buffers->remap_pending = 0;
+}
+
+/**
+ * Mix samples down from internal dsp_buf to output buffers, applying a
+ * pending sample-accurate output remap ("space" switch) if its position falls
+ * into the mixed range.
+ *
+ * @param buffers Destination buffer(s)
+ * @param dsp_buf Mono sample source
+ * @param start_sample starting sample in dsp_buf (and in the destination buffers)
+ * @param sample_count number of samples to mix following \c start_sample
+ * @param dest_bufs Array of buffers to mixdown to
+ * @param dest_bufcount Length of dest_bufs (i.e count of buffers)
+ */
+static void
+fluid_rvoice_buffers_mix(fluid_rvoice_buffers_t *buffers,
+                         const fluid_real_t *FLUID_RESTRICT dsp_buf,
+                         int start_sample, int sample_count,
+                         fluid_real_t **dest_bufs, int dest_bufcount)
+{
+    if(buffers->remap_pending && buffers->remap_pos < start_sample + sample_count)
+    {
+        int pos = buffers->remap_pos;
+
+        if(pos > start_sample)
+        {
+            /* The switch happens inside this range: mix the part before it
+             * with the current (old) mapping first. */
+            fluid_rvoice_buffers_mix_range(buffers, dsp_buf, start_sample,
+                                           pos - start_sample, dest_bufs, dest_bufcount);
+            sample_count -= pos - start_sample;
+            start_sample = pos;
+        }
+
+        /* Switch position reached (or already passed): apply the new mapping */
+        fluid_rvoice_buffers_apply_remap(buffers);
+    }
+
+    fluid_rvoice_buffers_mix_range(buffers, dsp_buf, start_sample, sample_count,
+                                   dest_bufs, dest_bufcount);
 }
 
 /**
@@ -541,7 +613,7 @@ fluid_mixer_buffers_render_one(fluid_mixer_buffers_t *buffers,
         if(s == -1)
         {
             /* the voice is silent, mix back all the previously rendered sound */
-            fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed,
+            fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed * FLUID_BUFSIZE,
                                      total_samples - (last_block_mixed * FLUID_BUFSIZE),
                                      dest_bufs, dest_bufcount);
 
@@ -562,7 +634,7 @@ fluid_mixer_buffers_render_one(fluid_mixer_buffers_t *buffers,
     }
 
     /* Now mix the remaining blocks from last_block_mixed to total_sample */
-    fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed,
+    fluid_rvoice_buffers_mix(&rvoice->buffers, src_buf, last_block_mixed * FLUID_BUFSIZE,
                              total_samples - (last_block_mixed * FLUID_BUFSIZE),
                              dest_bufs, dest_bufcount);
 
@@ -1769,6 +1841,24 @@ fluid_rvoice_mixer_render(fluid_rvoice_mixer_t *mixer, int blockcount)
 #endif
     {
         fluid_render_loop_singlethread(mixer, blockcount);
+    }
+
+    /* Advance any still pending output remaps ("space" switches) by the number
+     * of samples just rendered, so their position stays relative to the start
+     * of the next render run. Remaps whose position fell into this run have
+     * been applied (and cleared) while mixing. */
+    {
+        int i, rendered = blockcount * FLUID_BUFSIZE;
+
+        for(i = 0; i < mixer->active_voices; i++)
+        {
+            fluid_rvoice_buffers_t *buffers = &mixer->rvoices[i]->buffers;
+
+            if(buffers->remap_pending)
+            {
+                buffers->remap_pos -= rendered;
+            }
+        }
     }
 
     fluid_profile(FLUID_PROF_ONE_BLOCK_VOICES, prof_ref, mixer->active_voices,

@@ -140,6 +140,10 @@ struct _fluid_synth_t
     int audio_groups;                  /**< the number of (stereo) 'sub'groups from the synth. Typically equal to audio_channels. */
     int effects_channels;              /**< the number of effects channels (>= 2) */
     int effects_groups;                /**< the number of effects units (>= 1) */
+    int next_noteon_space;             /**< output space ("room") explicitly requested for the voice(s) of the
+                                            noteon currently being processed, or -1 to fall back to the
+                                            default channel-based output mapping. Only touched by the API
+                                            thread while holding the synth lock. */
     int state;                         /**< the synthesizer state */
     fluid_atomic_uint_t ticks_since_start;    /**< the number of audio samples since the start */
     unsigned int start;                /**< the start in msec, as returned by system clock */
@@ -263,6 +267,11 @@ fluid_synth_write_float_channels(fluid_synth_t *synth, int len,
 
 int fluid_synth_render_blocks(fluid_synth_t *synth, int blockcount);
 unsigned int fluid_synth_get_ticks(fluid_synth_t *synth);
+
+/* Compute the rvoice output buffer mappings (dry left, dry right, reverb,
+ * chorus) for a given output space. A \c space of -1 selects the default
+ * channel-based mapping of \c chan. */
+void fluid_synth_get_space_mapping(fluid_synth_t *synth, int chan, int space, int mapping[4]);
 
 fluid_preset_t *fluid_synth_find_preset(fluid_synth_t *synth,
                                         int banknum,

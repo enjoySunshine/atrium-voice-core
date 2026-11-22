@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>空间混音渲染结果 — 洞穴 / 木厅 / 院子 / 井口</title>
+<style>
+  body { font-family: "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; background:#1b1e24; color:#ddd; margin:24px; }
+  h1 { font-size:20px; } h2 { font-size:15px; color:#9ab; margin:18px 0 6px; }
+  .muted { color:#889; font-size:12px; }
+  .stats { background:#23272f; border:1px solid #333a45; border-radius:8px; padding:12px 16px; margin:14px 0; font-size:14px; line-height:1.7; }
+  .stats b { color:#8fd18f; }
+  .stats .warn { color:#e0a060; }
+  table.grid { border-collapse:collapse; }
+  table.grid td { padding:4px 8px; vertical-align:top; }
+  .celltitle { font-size:12px; color:#9ab; margin-bottom:2px; }
+  canvas { background:#10131a; border:1px solid #2a2f3a; border-radius:4px; display:block; }
+  .legend span { display:inline-block; margin-right:14px; font-size:12px; }
+  .sw { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:4px; vertical-align:-1px; }
+  .align-note { color:#8fd18f; font-size:13px; margin-top:4px; }
+</style>
+</head>
+<body>
+<h1>四个空间的渲染结果（干声 / 混响 / 合唱 各一路）</h1>
+<div class="muted">
+  场景：滴水（中央 C，力度 100）第 0 个采样在洞穴响起，第 <span id="sw1"></span> 个采样改去木厅；
+  脚步（低八度，同一通道）全程留在洞穴。采样率 44100。音色 VintageDreamsWaves-v2.sf2。
+  本页不发声，波形与数字全部来自合成器吐出的缓冲。
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="legend">
+  <span><span class="sw" style="background:#5ac8fa"></span>左声道</span>
+  <span><span class="sw" style="background:#f0a35e"></span>右声道</span>
+  <span><span class="sw" style="background:#b07ef0"></span>参考：一开始就在木厅的滴水</span>
+  <span><span class="sw" style="background:#ff5a5a"></span>竖线：第 <span id="sw2"></span> 个采样（换空间）</span>
+</div>
+
+<table class="grid"><tbody id="grid"></tbody></table>
+
+<script src="report_data.js"></script>
+<script>
+const SPACES = [["cave","洞穴"],["hall","木厅"],["yard","院子"],["well","井口"]];
+const KINDS  = [["dry","干声"],["rev","混响"],["cho","合唱"]];
+const CW = 520, CH = 96;
+
+document.getElementById("sw1").textContent = SWITCH;
+document.getElementById("sw2").textContent = SWITCH;
+
+// stats box
+document.getElementById("stats").innerHTML =
+  "木厅干声从第 <b>" + ALIGN_HALL + "</b> 个采样开始，和“一开始就在木厅”的那条波形逐采样对齐" +
+  "（换空间写在第 " + SWITCH + " 个采样）。" +
+  "<br>第 " + SWITCH + " 个采样之前，木厅干声峰值 = <b>" + PEAK_HALL_BEFORE + "</b>（静的，满幅按 1 算）。";
+
+function drawWave(canvas, ch, refCh) {
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0,0,CW,CH);
+  const mid = CH/2, amp = CH/2 - 4;
+
+  function trace(series, color) {
+    ctx.fillStyle = color;
+    for (let x = 0; x < CW; x++) {
+      const b = Math.min(NBUF-1, Math.floor(x * NBUF / CW));
+      const mn = series.mn[b], mx = series.mx[b];
+      const y0 = mid - mx * amp, y1 = mid - mn * amp;
+      ctx.fillRect(x, y0, 1, Math.max(1, y1 - y0));
+    }
+  }
+  // reference first (underneath)
+  if (refCh) { trace(refCh.L, "rgba(176,126,240,0.55)"); }
+  trace(ch.L, "rgba(90,200,250,0.9)");
+  trace(ch.R, "rgba(240,163,94,0.75)");
+
+  // switch marker
+  const sx = Math.round(SWITCH / N * CW);
+  ctx.fillStyle = "rgba(255,90,90,0.8)";
+  ctx.fillRect(sx, 0, 1, CH);
+}
+
+const grid = document.getElementById("grid");
+for (const [skey, sname] of SPACES) {
+  const tr = document.createElement("tr");
+  for (const [kkey, kname] of KINDS) {
+    const td = document.createElement("td");
+    const title = document.createElement("div");
+    title.className = "celltitle";
+    title.textContent = sname + " · " + kname;
+    td.appendChild(title);
+    const cv = document.createElement("canvas");
+    cv.width = CW; cv.height = CH;
+    td.appendChild(cv);
+
+    const dataKey = skey + "_" + kkey;
+    const isHallDry = (skey === "hall" && kkey === "dry");
+    drawWave(cv, W[dataKey], isHallDry ? W["ref_hall_dry"] : null);
+
+    if (isHallDry) {
+      const note = document.createElement("div");
+      note.className = "align-note";
+      note.textContent = "从第 " + ALIGN_HALL + " 个采样起与参考对齐";
+      td.appendChild(note);
+    }
+    tr.appendChild(td);
+  }
+  grid.appendChild(tr);
+}
+</script>
+</body>
+</html>

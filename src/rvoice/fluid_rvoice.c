@@ -544,6 +544,28 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping)
     buffers->bufs[bufnum].mapping = mapping;
 }
 
+/**
+ * Schedule a sample-accurate remap of all output buffers (a "space" switch).
+ * param[0].i       : sample offset of the switch, relative to the start of the
+ *                    upcoming render run (<= 0 means: apply immediately)
+ * param[1..4].i    : the new mappings for the dry left, dry right, reverb and
+ *                    chorus buffers
+ */
+DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping_at)
+{
+    fluid_rvoice_buffers_t *buffers = obj;
+    int i;
+
+    buffers->remap_pos = param[0].i;
+
+    for(i = 0; i < FLUID_RVOICE_MAX_BUFS; i++)
+    {
+        buffers->remap_mapping[i] = param[1 + i].i;
+    }
+
+    buffers->remap_pending = 1;
+}
+
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_reset)
 {
@@ -556,6 +578,10 @@ DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_reset)
     /* Force a proper buffer-amplitude-reinitialization by fluid_rvoice_buffers_check_bufnum() when the buffer mappings are set up for the
      * new voice, so its onset ramp cannot inherit a previous voice's gain. */
     voice->buffers.count = 0;
+
+    /* Drop any output remap that was still pending for the previous voice */
+    voice->buffers.remap_pending = 0;
+    voice->buffers.remap_pos = 0;
 
     /* legato initialization */
     voice->dsp.pitchoffset = 0.0;   /* portamento initialization */

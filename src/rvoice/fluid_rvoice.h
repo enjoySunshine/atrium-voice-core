@@ -151,6 +151,19 @@ struct _fluid_rvoice_buffers_t
         /* Mapping to mixdown buffer index */
         int mapping;
     } bufs[FLUID_RVOICE_MAX_BUFS];
+
+    /* Pending sample-accurate output remap ("space" switch). When
+     * remap_pending is non-zero, the mappings in remap_mapping are applied
+     * once the mix position of the current render run reaches remap_pos
+     * (expressed in samples relative to the start of the render run; may be
+     * negative or zero, in which case the remap applies immediately). The
+     * render run is the set of FLUID_BUFSIZE-blocks rendered by one
+     * fluid_rvoice_mixer_render() call; remap_pos is decremented by the
+     * number of rendered samples after every run, so a remap may be
+     * scheduled arbitrarily far in the future. */
+    int remap_pending;
+    int remap_pos;
+    int remap_mapping[FLUID_RVOICE_MAX_BUFS];
 };
 
 /*
@@ -176,6 +189,7 @@ int fluid_rvoice_write(fluid_rvoice_t *voice, fluid_real_t *dsp_buf);
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_amp);
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping);
+DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_buffers_set_mapping_at);
 
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_noteoff);
 DECLARE_FLUID_RVOICE_FUNCTION(fluid_rvoice_voiceoff);

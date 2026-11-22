@@ -75,6 +75,8 @@ struct _fluid_voice_t
     unsigned int id;                /* the id is incremented for every new noteon.
 					   it's used for noteoff's  */
     unsigned int start_time;
+    int space;                     /* output space ("room") the voice is routed to, or -1
+                                      for the default channel-based output mapping */
     fluid_channel_t *channel;
 
     /* basic parameters */

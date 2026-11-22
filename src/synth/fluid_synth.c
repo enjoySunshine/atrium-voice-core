@@ -798,6 +798,7 @@ new_fluid_synth(fluid_settings_t *settings)
     fluid_settings_getint(settings, "synth.audio-groups", &synth->audio_groups);
     fluid_settings_getint(settings, "synth.effects-channels", &synth->effects_channels);
     fluid_settings_getint(settings, "synth.effects-groups", &synth->effects_groups);
+    synth->next_noteon_space = -1;
     fluid_settings_getnum_float(settings, "synth.gain", &synth->gain);
     fluid_settings_getint(settings, "synth.device-id", &synth->device_id);
     fluid_settings_getint(settings, "synth.cpu-cores", &synth->cores);
@@ -1447,6 +1448,214 @@ fluid_synth_noteon(fluid_synth_t *synth, int chan, int key, int vel)
 
     result = fluid_synth_noteon_LOCAL(synth, chan, key, vel);
     FLUID_API_RETURN(result);
+}
+
+/**
+ * Compute the rvoice output buffer mappings (dry left, dry right, reverb,
+ * chorus) for a voice.
+ *
+ * @param synth FluidSynth instance
+ * @param chan MIDI channel the voice plays on (used when \p space is -1)
+ * @param space Output space index, or -1 to use the default channel-based
+ *  mapping. A space \c s is routed to dry stereo pair
+ *  <code>s % synth.audio-groups</code> and to effects unit
+ *  <code>s % synth.effects-groups</code>.
+ * @param mapping Output array of 4 ints receiving the mixdown buffer indices
+ *  for dry left, dry right, reverb and chorus (in this order).
+ *
+ * @note Private to libfluidsynth.
+ */
+void
+fluid_synth_get_space_mapping(fluid_synth_t *synth, int chan, int space, int mapping[4])
+{
+    int fx_unit, dry_pair, i;
+
+    if(space >= 0)
+    {
+        fx_unit = space % synth->effects_groups;
+        dry_pair = space % synth->audio_groups;
+    }
+    else
+    {
+        fx_unit = chan % synth->effects_groups;
+        dry_pair = chan % synth->audio_groups;
+    }
+
+    i = 2 * synth->audio_groups + fx_unit * synth->effects_channels;
+    mapping[2] = i + SYNTH_REVERB_CHANNEL;
+    mapping[3] = i + SYNTH_CHORUS_CHANNEL;
+
+    i = 2 * dry_pair;
+    mapping[0] = i;
+    mapping[1] = i + 1;
+}
+
+/**
+ * Send a note-on event to a FluidSynth object, directing the new voice(s) to a
+ * specific output space ("room").
+ *
+ * This behaves exactly like fluid_synth_noteon(), except that the voice(s)
+ * created by this call render into the dry stereo pair and the reverb/chorus
+ * effects unit of the given \p space, instead of being assigned to an output
+ * by their MIDI channel. The voice still belongs to its MIDI channel: channel
+ * volume, pan, expression etc. keep affecting it wherever it is routed, and
+ * voice stealing as well as exclusive classes are unaffected.
+ *
+ * @param synth FluidSynth instance
+ * @param chan MIDI channel number (0 to MIDI channel count - 1)
+ * @param key MIDI note number (0-127)
+ * @param vel MIDI velocity (0-127, 0=noteoff)
+ * @param space Output space index (>= 0). Space \c s maps to dry stereo pair
+ *  <code>s % fluid_synth_count_audio_groups()</code> and to effects unit
+ *  <code>s % fluid_synth_count_effects_groups()</code>.
+ * @return #FLUID_OK on success, #FLUID_FAILED otherwise
+ *
+ * @note To also have distinct reverb and chorus per space, set
+ * \setting{synth_effects-groups} to the number of spaces (and
+ * \setting{synth_audio-groups} likewise for distinct dry pairs).
+ */
+int
+fluid_synth_noteon_space(fluid_synth_t *synth, int chan, int key, int vel, int space)
+{
+    int result;
+    fluid_return_val_if_fail(key >= 0 && key <= 127, FLUID_FAILED);
+    fluid_return_val_if_fail(vel >= 0 && vel <= 127, FLUID_FAILED);
+    fluid_return_val_if_fail(space >= 0, FLUID_FAILED);
+    FLUID_API_ENTRY_CHAN(FLUID_FAILED);
+
+    /* Allowed only on MIDI channel enabled */
+    FLUID_API_RETURN_IF_CHAN_DISABLED(FLUID_FAILED);
+
+    synth->next_noteon_space = space;
+    result = fluid_synth_noteon_LOCAL(synth, chan, key, vel);
+    synth->next_noteon_space = -1;
+
+    FLUID_API_RETURN(result);
+}
+
+/* Schedule a sample-accurate output remap ("space" switch) for a single
+ * voice. \p offset is the switch position in samples relative to the current
+ * render clock (values <= 0 switch at the next rendered sample). Must be
+ * called with the synth lock held. */
+static int
+fluid_synth_voice_set_space_LOCAL(fluid_synth_t *synth, fluid_voice_t *voice,
+                                  int space, int offset)
+{
+    fluid_rvoice_param_t param[MAX_EVENT_PARAMS];
+    int mapping[4];
+    int ret;
+
+    fluid_synth_get_space_mapping(synth, 0, space, mapping);
+
+    param[0].i = (offset > 0) ? offset : 0;
+    param[1].i = mapping[0];
+    param[2].i = mapping[1];
+    param[3].i = mapping[2];
+    param[4].i = mapping[3];
+
+    ret = fluid_rvoice_eventhandler_push(synth->eventhandler,
+                                         fluid_rvoice_buffers_set_mapping_at,
+                                         &voice->rvoice->buffers, param);
+
+    if(ret == FLUID_OK)
+    {
+        voice->space = space;
+    }
+
+    return ret;
+}
+
+/**
+ * Move a playing voice to a different output space ("room") at an exact
+ * sample position, without retriggering it.
+ *
+ * The voice keeps sounding (its attack is not restarted); only the
+ * destination of its dry, reverb-send and chorus-send signals changes. The
+ * switch happens at the absolute sample position \p when, counted in
+ * synthesized samples since the synth started rendering (i.e. the same clock
+ * fluid_synth_get_ticks() exposes; when rendering is always requested in
+ * multiples of the internal block size of 64 samples, this equals the number
+ * of samples the caller has consumed so far). If \p when lies in the past or
+ * equals the current position, the switch happens at the next rendered
+ * sample.
+ *
+ * The reverb and chorus tails already sent to the voice's previous space keep
+ * ringing there; from \p when on, the voice feeds the effects units of the
+ * new space.
+ *
+ * Note that a single note may consist of several voices (one per instrument
+ * layer); to move a whole note, use fluid_synth_key_set_space().
+ *
+ * @param synth FluidSynth instance
+ * @param voice The voice to move (e.g. found via fluid_synth_get_voicelist())
+ * @param space Output space index (>= 0), interpreted as in
+ *  fluid_synth_noteon_space()
+ * @param when Absolute sample position of the switch
+ * @return #FLUID_OK on success, #FLUID_FAILED otherwise
+ */
+int
+fluid_synth_voice_set_space(fluid_synth_t *synth, fluid_voice_t *voice, int space, unsigned int when)
+{
+    int ret;
+    long offset;
+
+    fluid_return_val_if_fail(synth != NULL, FLUID_FAILED);
+    fluid_return_val_if_fail(voice != NULL, FLUID_FAILED);
+    fluid_return_val_if_fail(space >= 0, FLUID_FAILED);
+
+    fluid_synth_api_enter(synth);
+
+    offset = (long)when - (long)fluid_synth_get_ticks(synth);
+    ret = fluid_synth_voice_set_space_LOCAL(synth, voice, space, (int)offset);
+    fluid_rvoice_eventhandler_flush(synth->eventhandler);
+
+    FLUID_API_RETURN(ret);
+}
+
+/**
+ * Move all currently playing voices of a note (given by MIDI channel and key)
+ * to a different output space ("room") at an exact sample position, without
+ * retriggering. See fluid_synth_voice_set_space() for details.
+ *
+ * @param synth FluidSynth instance
+ * @param chan MIDI channel number (0 to MIDI channel count - 1)
+ * @param key MIDI note number (0-127)
+ * @param space Output space index (>= 0), interpreted as in
+ *  fluid_synth_noteon_space()
+ * @param when Absolute sample position of the switch
+ * @return #FLUID_OK on success, #FLUID_FAILED otherwise (e.g. when no
+ *  matching voice is playing)
+ */
+int
+fluid_synth_key_set_space(fluid_synth_t *synth, int chan, int key, int space, unsigned int when)
+{
+    int i, moved = 0, offset;
+    long off;
+
+    fluid_return_val_if_fail(synth != NULL, FLUID_FAILED);
+    fluid_return_val_if_fail(key >= 0 && key <= 127, FLUID_FAILED);
+    fluid_return_val_if_fail(space >= 0, FLUID_FAILED);
+    FLUID_API_ENTRY_CHAN(FLUID_FAILED);
+
+    off = (long)when - (long)fluid_synth_get_ticks(synth);
+    offset = (off > 0) ? (int)off : 0;
+
+    for(i = 0; i < synth->polyphony; i++)
+    {
+        fluid_voice_t *voice = synth->voice[i];
+
+        if(fluid_voice_is_playing(voice)
+                && fluid_voice_get_channel(voice) == chan
+                && fluid_voice_get_key(voice) == key)
+        {
+            fluid_synth_voice_set_space_LOCAL(synth, voice, space, offset);
+            moved++;
+        }
+    }
+
+    fluid_rvoice_eventhandler_flush(synth->eventhandler);
+
+    FLUID_API_RETURN(moved > 0 ? FLUID_OK : FLUID_FAILED);
 }
 
 /* Local synthesis thread variant of fluid_synth_noteon */

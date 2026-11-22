@@ -357,14 +357,22 @@ fluid_voice_init(fluid_voice_t *voice, fluid_sample_t *sample,
 
     UPDATE_RVOICE_R1(fluid_rvoice_set_synth_gain, voice->synth_gain);
 
-    i = 2 * channel->synth->audio_groups;
-    i += (voice->chan % channel->synth->effects_groups) * channel->synth->effects_channels;
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 2, i + SYNTH_REVERB_CHANNEL);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 3, i + SYNTH_CHORUS_CHANNEL);
+    /* Compute the output buffer mapping for this voice. An explicitly
+     * requested output space ("room", >= 0) overrides the default
+     * channel-based mapping; otherwise the voice is routed by its MIDI
+     * channel, exactly as before. */
+    {
+        int mapping[4];
+        int space = channel->synth->next_noteon_space;
 
-    i = 2 * (voice->chan % channel->synth->audio_groups);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 0, i);
-    UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 1, i + 1);
+        fluid_synth_get_space_mapping(channel->synth, voice->chan, space, mapping);
+        voice->space = space;
+
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 0, mapping[0]);
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 1, mapping[1]);
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 2, mapping[2]);
+        UPDATE_RVOICE_GENERIC_I2(fluid_rvoice_buffers_set_mapping, &voice->rvoice->buffers, 3, mapping[3]);
+    }
 
     return FLUID_OK;
 }
